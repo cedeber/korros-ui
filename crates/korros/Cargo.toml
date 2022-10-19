@@ -1,0 +1,41 @@
+[package]
+name = "korros"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[package.metadata.wasm-pack.profile.release]
+# wasm-opt = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["console_error_panic_hook", "console_log"]
+
+[dependencies]
+# The `console_error_panic_hook` crate provides better debugging of panics by
+# logging them with `console.error`. This is great for development, but requires
+# all the `std::fmt` and `std::panicking` infrastructure, so isn't great for
+# code size when deploying.
+console_error_panic_hook = { version = "0.1.7", optional = true }
+
+# Wasm bindgen
+wasm-bindgen = { version = "0.2.81", features = ["serde-serialize"] }
+wasm-bindgen-futures = "0.4.31"
+
+# JS and DOM APIs
+js-sys = "0.3.58"
+web-sys = "0.3.58"
+gloo = "0.8.0"
+
+# Log
+log = "0.4.17"
+console_log = { version = "0.2.0", features = ["color"], optional = true }
+
+# Local crates
+
+# Other
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.31"

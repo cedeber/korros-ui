@@ -1,0 +1,12 @@
+# IDE
+.idea
+.fleet
+.vscode
+
+# macOS
+.DS_Store
+
+# Build
+/target
+/out/korros_bg.wasm
+/out/korros.js

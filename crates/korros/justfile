@@ -1,0 +1,9 @@
+debug:
+	cargo build --lib --target wasm32-unknown-unknown
+	wasm-bindgen --target web --out-dir ../../out --out-name korros --no-typescript ../../target/wasm32-unknown-unknown/debug/korros.wasm
+	wasm-opt -O1 ../../out/korros_bg.wasm -o ../../out/korros_bg.wasm
+
+release:
+	cargo build --release --lib --target wasm32-unknown-unknown
+	wasm-bindgen --target web --out-dir ../../out --out-name korros --no-typescript ../../target/wasm32-unknown-unknown/release/korros.wasm
+	wasm-opt -Os ../../out/korros_bg.wasm -o ../../out/korros_bg.wasm
