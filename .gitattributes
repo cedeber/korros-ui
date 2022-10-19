@@ -1,4 +1,1 @@
-out/index.html -linguist-detectable
-out/server.py -linguist-detectable
-out/*.js linguist-generated
-out/*.wasm linguist-generated
+out/** -linguist-detectable
