@@ -21,12 +21,12 @@ default = ["console_error_panic_hook", "console_log"]
 console_error_panic_hook = { version = "0.1.7", optional = true }
 
 # Wasm bindgen
-wasm-bindgen = { version = "0.2.81", features = ["serde-serialize"] }
-wasm-bindgen-futures = "0.4.31"
+wasm-bindgen = { version = "0.2.83", features = ["serde-serialize"] }
+wasm-bindgen-futures = "0.4.33"
 
 # JS and DOM APIs
-js-sys = "0.3.58"
-web-sys = "0.3.58"
+js-sys = "0.3.60"
+web-sys = "0.3.60"
 gloo = "0.8.0"
 
 # Log
@@ -36,6 +36,7 @@ console_log = { version = "0.2.0", features = ["color"], optional = true }
 # Local crates
 
 # Other
+anyhow = "1.0.66"
 
 [dev-dependencies]
-wasm-bindgen-test = "0.3.31"
+wasm-bindgen-test = "0.3.33"
