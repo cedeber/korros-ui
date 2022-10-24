@@ -8,5 +8,4 @@
 
 # Build
 /target
-/out/korros_bg.wasm
-/out/korros.js
+/out/assets
