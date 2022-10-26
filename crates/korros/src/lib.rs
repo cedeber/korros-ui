@@ -1,15 +1,15 @@
-use std::hash::BuildHasherDefault;
-
+use futures_signals::signal::{Mutable, Signal, SignalExt};
 use gloo::{
 	events::EventListener,
 	utils::{body, document},
 };
-use log::{info, warn, Level};
+use log::{info, Level};
 use wasm_bindgen::prelude::*;
-use web_sys::{Element, Event, HtmlElement};
+use wasm_bindgen_futures::spawn_local;
+use web_sys::{Element, Event, HtmlElement, Node, Text as DomText};
 
 trait ViewComponent {
-	fn get(&self) -> &Element;
+	fn get(&self) -> &Node;
 }
 
 struct Body {
@@ -23,6 +23,43 @@ impl Body {
 
 	fn with_child(self, element: &impl ViewComponent) -> Self {
 		self.element.append_child(element.get()).unwrap_throw();
+
+		self
+	}
+}
+
+#[derive(Clone)]
+struct Text {
+	element: DomText,
+}
+
+impl ViewComponent for Text {
+	fn get(&self) -> &Node {
+		&self.element
+	}
+}
+
+impl Text {
+	fn new(text: &str) -> Self {
+		let document = document();
+		let text = document.create_text_node(text);
+
+		Text { element: text }
+	}
+
+	fn set_text(self, text: &str) -> Self {
+		self.element.set_text_content(Some(text));
+		self
+	}
+
+	fn text_state(self, state: Mutable<&'static str>) -> Self {
+		let c = self.clone();
+		let future = state.signal_cloned().for_each(move |value| {
+			c.clone().set_text(value);
+			async {}
+		});
+
+		spawn_local(future);
 
 		self
 	}
@@ -42,7 +79,7 @@ struct Button {
 }
 
 impl ViewComponent for Button {
-	fn get(&self) -> &Element {
+	fn get(&self) -> &Node {
 		&self.element
 	}
 }
@@ -53,11 +90,9 @@ impl Button {
 		let button = document.create_element("action-button").unwrap_throw();
 		button.set_attribute("role", "button").unwrap_throw();
 
-		let button = Button { element: button }
+		Button { element: button }
 			.set_label(label)
-			.with_intent(ButtonIntent::Filled);
-
-		button
+			.with_intent(ButtonIntent::Filled)
 	}
 
 	fn on_press(self, callback: impl Fn(&Event) + 'static) -> Self {
@@ -126,11 +161,14 @@ pub fn main_wasm() -> Result<(), JsValue> {
 
 	info!("Hello, World!");
 
-	let button = Button::new("Click me!")
-		.on_press(|_| warn!("Hello, Button!"))
-		.with_intent(ButtonIntent::Danger);
+	let state = Mutable::new("Default");
+	let text = Text::new("").text_state(state.clone());
 
-	Body::new().with_child(&button);
+	let button = Button::new("Click me!")
+		.on_press(move |_| state.set("You clicked the button, and I changed the text."))
+		.with_intent(ButtonIntent::Filled);
+
+	Body::new().with_child(&button).with_child(&text);
 
 	Ok(())
 }
@@ -142,6 +180,6 @@ mod tests {
 
 	#[wasm_bindgen_test]
 	fn it_works() {
-		assert_eq!(5, 3 + 2);
+		// assert_eq!(5, 3 + 2);
 	}
 }
