@@ -11,6 +11,6 @@ debug:
 
 release:
 	rm -rf out/assets/
-	just crates/korros/debug
+	just crates/korros/release
 	esbuild --minify --outfile=out/assets/korros.js --allow-overwrite out/assets/korros.js
 	esbuild --bundle --minify --loader:.woff2=file --outfile=out/assets/styles.css styles/styles.css
