@@ -1,1 +1,3 @@
 out/** -linguist-detectable
+Dockerfile -linguist-detectable
+server.py -linguist-detectable
