@@ -26,7 +26,18 @@ wasm-bindgen-futures = "0.4.33"
 
 # JS and DOM APIs
 js-sys = "0.3.60"
-web-sys = { version = "0.3.60", features = ["Document", "Element", "Text"] }
+web-sys = { version = "0.3.60", features = [
+    "Window",
+    "Document",
+    "Element",
+    "Text",
+    "HtmlElement",
+    "CssStyleDeclaration",
+    "DomTokenList",
+    "DomStringMap",
+    "MouseEvent",
+    "KeyboardEvent",
+] }
 gloo = "0.8.0"
 
 # Log

@@ -48,8 +48,9 @@ action-button[data-intent="filled"]:hover {
   filter: brightness(0.9) contrast(1.2);
 }
 
-action-button[data-intent="filled"]:focus {
+action-button[data-intent="filled"]:focus-visible {
   box-shadow: 0 0 0 2px white, 0 0 0 4px var(--sky-600);
+  outline: 0;
 }
 
 /* .tinted {
