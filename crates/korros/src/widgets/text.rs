@@ -1,5 +1,5 @@
 use super::ViewComponent;
-use futures_signals::signal::{ Signal, SignalExt};
+use futures_signals::signal::{Signal, SignalExt};
 use gloo::utils::document;
 use wasm_bindgen::UnwrapThrowExt;
 use wasm_bindgen_futures::spawn_local;
@@ -27,23 +27,23 @@ impl Text {
 		Text { element, parent }.set_text(text)
 	}
 
-    pub fn signal(signal: impl Signal<Item = &'static str> + 'static) -> Self {
-        let text = Text::new("");
-        let clone = text.clone();
-        let future = signal.for_each(move |value| {
-            clone.clone().set_text(value);
-            async {}
-        });
+	pub fn signal(signal: impl Signal<Item = &'static str> + 'static) -> Self {
+		let text = Text::new("");
+		let clone = text.clone();
+		let future = signal.for_each(move |value| {
+			clone.clone().set_text(value);
+			async {}
+		});
 
-        spawn_local(future);
+		spawn_local(future);
 
-        text
-    }
+		text
+	}
 
 	fn set_text(self, text: &str) -> Self {
-        if !text.is_empty() {
-            self.element.set_text_content(Some(text));
-        }
+		if !text.is_empty() {
+			self.element.set_text_content(Some(text));
+		}
 
 		self
 	}

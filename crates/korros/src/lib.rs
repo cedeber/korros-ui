@@ -25,11 +25,11 @@ pub fn main_wasm() -> Result<(), JsValue> {
 	let state_bool = Mutable::new(false);
 
 	let text1 = Text::signal(state.signal());
-    let text2 = Text::signal(state_bool.signal_ref(|value| match value {
+	let text2 = Text::signal(state_bool.signal_ref(|value| match value {
 		true => "True",
 		false => "False",
 	}));
-    let text3 = Text::signal(state.signal().map(|value| value));
+	let text3 = Text::signal(state.signal().map(|value| value));
 
 	let button = Button::new("Click me!")
 		.on_press(move |_| {
@@ -38,7 +38,10 @@ pub fn main_wasm() -> Result<(), JsValue> {
 		})
 		.with_intent(ButtonIntent::Filled);
 
-	let v_stack = VStack::new().with_child(&text1).with_child(&text2).with_child(&text3);
+	let v_stack = VStack::new()
+		.with_child(&text1)
+		.with_child(&text2)
+		.with_child(&text3);
 
 	let h_stack = HStack::new()
 		.with_child(&button)
