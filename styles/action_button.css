@@ -1,4 +1,4 @@
-action-button {
+.action-button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -18,10 +18,6 @@ action-button {
   -webkit-user-select: none;
 }
 
-action-button.focus {
-  z-index: 3;
-}
-
 /* @mixin intent($background, $color) {
   background: $background;
   color: $color;
@@ -39,18 +35,19 @@ action-button.focus {
   }
 } */
 
-action-button[data-intent="filled"] {
+.action-button[data-intent="filled"] {
   --background: var(--sky-600);
   --color: var(--stone-100);
 }
 
-action-button[data-intent="filled"]:hover {
+.action-button[data-intent="filled"]:hover {
   filter: brightness(0.9) contrast(1.2);
 }
 
-action-button[data-intent="filled"]:focus-visible {
+.action-button[data-intent="filled"]:focus-visible {
   box-shadow: 0 0 0 2px white, 0 0 0 4px var(--sky-600);
   outline: 0;
+  z-index: 3;
 }
 
 /* .tinted {
@@ -71,16 +68,16 @@ action-button[data-intent="filled"]:focus-visible {
 }
 */
 
-action-button[data-intent="danger"] {
+.action-button[data-intent="danger"] {
   --background: var(--rose-600);
   --color: var(--stone-100);
 }
 
-action-button[data-intent="danger"]:hover {
+.action-button[data-intent="danger"]:hover {
   filter: brightness(0.9) contrast(1.2);
 }
 
-action-button[data-intent="danger"]:focus {
+.action-button[data-intent="danger"]:focus {
   box-shadow: 0 0 0 2px white, 0 0 0 4px var(--rose-600);
 }
 
@@ -88,7 +85,7 @@ action-button[data-intent="danger"]:focus {
   cursor: progress;
 }
 
-action-button:disabled {
+.action-button:disabled {
   --background: var(--stone-100) !important;
   --color: var(--stone-400) !important;
   filter: none !important;
@@ -96,6 +93,7 @@ action-button:disabled {
   cursor: not-allowed !important;
 }
 
+/* TODO */
 .icon {
   font-size: 18px;
   width: 18px;

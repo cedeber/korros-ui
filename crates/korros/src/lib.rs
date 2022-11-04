@@ -5,6 +5,7 @@ use wasm_bindgen::prelude::*;
 use crate::widgets::{
 	action_button::{Button, ButtonIntent},
 	body::Body,
+	icon::{Icon, IconSize},
 	stack::{HStack, VStack},
 	text::Text,
 };
@@ -24,19 +25,22 @@ pub fn main_wasm() -> Result<(), JsValue> {
 	let state = Mutable::new("Default");
 	let state_bool = Mutable::new(false);
 
-	let text1 = Text::signal(state.signal());
-	let text2 = Text::signal(state_bool.signal_ref(|value| match value {
+	let text1 = Text::new_with_signal(state.signal());
+	let text2 = Text::new_with_signal(state_bool.signal_ref(|value| match value {
 		true => "True",
 		false => "False",
 	}));
-	let text3 = Text::signal(state.signal().map(|value| value));
+	let text3 = Text::new_with_signal(state.signal().map(|value| value));
 
+	let st = state.clone();
+	let sb = state_bool.clone();
 	let button = Button::new("Click me!")
+		.with_intent(ButtonIntent::Filled)
+		.with_disabled_signal(state_bool.signal())
 		.on_press(move |_| {
-			state.set("I changed the HTML text.");
-			state_bool.set(true)
-		})
-		.with_intent(ButtonIntent::Filled);
+			st.set("I changed the HTML text.");
+			sb.clone().set(!sb.get())
+		});
 
 	let v_stack = VStack::new()
 		.with_child(&text1)
@@ -49,7 +53,9 @@ pub fn main_wasm() -> Result<(), JsValue> {
 		.with_gap(20)
 		.with_padding(10, 20);
 
-	Body::new().with_child(&h_stack);
+	let icon = Icon::new("delete").size(IconSize::Small);
+
+	Body::new().with_child(&h_stack).with_child(&icon);
 
 	Ok(())
 }
