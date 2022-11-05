@@ -27,11 +27,11 @@ impl Text {
 		Text { element, parent }.set_text(text)
 	}
 
-	pub fn new_with_signal(signal: impl Signal<Item = &'static str> + 'static) -> Self {
+	pub fn new_with_signal<T: Into<String>>(signal: impl Signal<Item = T> + 'static) -> Self {
 		let text = Text::new("");
 		let clone = text.clone();
 		let future = signal.for_each(move |value| {
-			clone.clone().set_text(value);
+			clone.clone().set_text(&value.into());
 			async {}
 		});
 
@@ -40,9 +40,10 @@ impl Text {
 		text
 	}
 
-	fn set_text(self, text: &str) -> Self {
+	fn set_text<T: Into<String>>(self, text: T) -> Self {
+		let text = text.into();
 		if !text.is_empty() {
-			self.element.set_text_content(Some(text));
+			self.element.set_text_content(Some(&text));
 		}
 
 		self

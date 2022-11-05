@@ -30,16 +30,14 @@ pub fn main_wasm() -> Result<(), JsValue> {
 		true => "True",
 		false => "False",
 	}));
-	let text3 = Text::new_with_signal(state.signal().map(|value| value));
+	let text3 = Text::new_with_signal(state.signal().map(|value| ["Hello,", value].join(" ")));
 
-	let st = state.clone();
-	let sb = state_bool.clone();
 	let button = Button::new("Click me!")
 		.with_intent(ButtonIntent::Filled)
 		.with_disabled_signal(state_bool.signal())
 		.on_press(move |_| {
-			st.set("I changed the HTML text.");
-			sb.clone().set(!sb.get())
+			state.set("I changed the HTML text.");
+			state_bool.set(!state_bool.get())
 		});
 
 	let v_stack = VStack::new()
