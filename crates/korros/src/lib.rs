@@ -1,5 +1,4 @@
 use futures_signals::signal::{Mutable, SignalExt};
-use log::{info, Level};
 use wasm_bindgen::prelude::*;
 
 use crate::widgets::{
@@ -8,6 +7,7 @@ use crate::widgets::{
 	icon::{Icon, IconSize},
 	stack::{HStack, VStack},
 	text::Text,
+	toggle::Toggle,
 };
 
 mod widgets;
@@ -16,11 +16,6 @@ mod widgets;
 pub fn main_wasm() -> Result<(), JsValue> {
 	#[cfg(feature = "console_error_panic_hook")]
 	console_error_panic_hook::set_once();
-
-	#[cfg(feature = "console_log")]
-	console_log::init_with_level(Level::Trace).expect("error initializing log");
-
-	info!("Hello, World!");
 
 	let state = Mutable::new("Default");
 	let state_bool = Mutable::new(false);
@@ -32,12 +27,13 @@ pub fn main_wasm() -> Result<(), JsValue> {
 	}));
 	let text3 = Text::new_with_signal(state.signal().map(|value| ["Hello,", value].join(" ")));
 
+	let state_button = state_bool.clone();
 	let button = Button::new("Click me!")
 		.with_intent(ButtonIntent::Filled)
 		.with_disabled_signal(state_bool.signal())
 		.on_press(move |_| {
 			state.set("I changed the HTML text.");
-			state_bool.set(!state_bool.get())
+			state_button.set(!state_button.get())
 		});
 
 	let v_stack = VStack::new()
@@ -51,9 +47,15 @@ pub fn main_wasm() -> Result<(), JsValue> {
 		.with_gap(20)
 		.with_padding(10, 20);
 
-	let icon = Icon::new("delete").size(IconSize::Small);
+	let icon = Icon::new("delete").with_size(IconSize::Small);
 
-	Body::new().with_child(&h_stack).with_child(&icon);
+	let state_switch = state_bool.clone();
+	let switch = Toggle::new(false).on_change(move |is_checked| state_switch.set(is_checked));
+
+	Body::new()
+		.with_child(&h_stack)
+		.with_child(&icon)
+		.with_child(&switch);
 
 	Ok(())
 }

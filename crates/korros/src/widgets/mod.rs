@@ -5,7 +5,8 @@ pub mod body;
 pub mod icon;
 pub mod stack;
 pub mod text;
+pub mod toggle;
 
 pub trait ViewComponent {
-	fn get(&self) -> &Node;
+	fn render(&self) -> &Node;
 }

@@ -30,7 +30,7 @@ pub struct Button {
 }
 
 impl ViewComponent for Button {
-	fn get(&self) -> &Node {
+	fn render(&self) -> &Node {
 		&self.element
 	}
 }

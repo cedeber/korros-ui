@@ -9,7 +9,7 @@ pub struct HStack {
 }
 
 impl ViewComponent for HStack {
-	fn get(&self) -> &web_sys::Node {
+	fn render(&self) -> &web_sys::Node {
 		&self.element
 	}
 }
@@ -18,11 +18,12 @@ impl HStack {
 	pub fn new() -> Self {
 		let document = document();
 		let stack = document
-			.create_element("h-stack")
+			.create_element("div")
 			.unwrap_throw()
 			.dyn_into::<HtmlElement>()
 			.unwrap_throw();
 
+		stack.set_attribute("class", "h-stack").unwrap_throw();
 		stack.style().set_property("gap", "5px").unwrap_throw();
 
 		HStack { element: stack }
@@ -47,7 +48,7 @@ impl HStack {
 	}
 
 	pub fn with_child(self, element: &impl ViewComponent) -> Self {
-		self.element.append_child(element.get()).unwrap_throw();
+		self.element.append_child(element.render()).unwrap_throw();
 
 		self
 	}
@@ -58,7 +59,7 @@ pub struct VStack {
 }
 
 impl ViewComponent for VStack {
-	fn get(&self) -> &web_sys::Node {
+	fn render(&self) -> &web_sys::Node {
 		&self.element
 	}
 }
@@ -67,11 +68,12 @@ impl VStack {
 	pub fn new() -> Self {
 		let document = document();
 		let stack = document
-			.create_element("v-stack")
+			.create_element("div")
 			.unwrap_throw()
 			.dyn_into::<HtmlElement>()
 			.unwrap_throw();
 
+		stack.set_attribute("class", "v-stack").unwrap_throw();
 		stack.style().set_property("gap", "5px").unwrap_throw();
 
 		VStack { element: stack }
@@ -96,7 +98,7 @@ impl VStack {
 	}
 
 	pub fn with_child(self, element: &impl ViewComponent) -> Self {
-		self.element.append_child(element.get()).unwrap_throw();
+		self.element.append_child(element.render()).unwrap_throw();
 
 		self
 	}

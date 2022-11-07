@@ -8,23 +8,23 @@ use web_sys::{Element, Node, Text as DomText};
 #[derive(Clone)]
 pub struct Text {
 	element: DomText,
-	parent: Element,
+	container: Element,
 }
 
 impl ViewComponent for Text {
-	fn get(&self) -> &Node {
-		&self.parent
+	fn render(&self) -> &Node {
+		self.container.append_child(&self.element).unwrap_throw();
+
+		&self.container
 	}
 }
 
 impl Text {
 	pub fn new(text: &str) -> Self {
-		let parent = document().create_element("span").unwrap_throw();
+		let container = document().create_element("span").unwrap_throw();
 		let element = document().create_text_node(text);
 
-		parent.append_child(&element).unwrap_throw();
-
-		Text { element, parent }.set_text(text)
+		Text { element, container }.set_text(text)
 	}
 
 	pub fn new_with_signal<T: Into<String>>(signal: impl Signal<Item = T> + 'static) -> Self {
@@ -42,6 +42,7 @@ impl Text {
 
 	fn set_text<T: Into<String>>(self, text: T) -> Self {
 		let text = text.into();
+
 		if !text.is_empty() {
 			self.element.set_text_content(Some(&text));
 		}

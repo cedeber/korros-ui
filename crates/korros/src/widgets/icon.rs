@@ -15,7 +15,7 @@ pub struct Icon {
 }
 
 impl ViewComponent for Icon {
-	fn get(&self) -> &Node {
+	fn render(&self) -> &Node {
 		&self.parent
 	}
 }
@@ -33,7 +33,7 @@ impl Icon {
 		Icon { element, parent }.set_icon(icon)
 	}
 
-	pub fn size(self, size: IconSize) -> Self {
+	pub fn with_size(self, size: IconSize) -> Self {
 		match size {
 			IconSize::Normal => self.parent.remove_attribute("data-size").unwrap_throw(),
 			IconSize::Small => self

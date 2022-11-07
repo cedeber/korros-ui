@@ -14,7 +14,7 @@ impl Body {
 	}
 
 	pub fn with_child(self, element: &impl ViewComponent) -> Self {
-		self.element.append_child(element.get()).unwrap_throw();
+		self.element.append_child(element.render()).unwrap_throw();
 
 		self
 	}
