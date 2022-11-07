@@ -30,7 +30,7 @@ pub fn main_wasm() -> Result<(), JsValue> {
 	let state_button = state_bool.clone();
 	let button = Button::new("Click me!")
 		.with_intent(ButtonIntent::Filled)
-		.with_disabled_signal(state_bool.signal())
+		// .with_disabled_signal(state_bool.signal())
 		.on_press(move |_| {
 			state.set("I changed the HTML text.");
 			state_button.set(!state_button.get())
@@ -50,12 +50,19 @@ pub fn main_wasm() -> Result<(), JsValue> {
 	let icon = Icon::new("delete").with_size(IconSize::Small);
 
 	let state_switch = state_bool.clone();
-	let switch = Toggle::new(false).on_change(move |is_checked| state_switch.set(is_checked));
+	let state_switch2 = state_bool.clone();
+	let switch =
+		Toggle::new(false).with_change_callback(move |is_checked| state_switch.set(is_checked));
+	let switch2 =
+		Toggle::new_with_signal(state_switch2.signal()).with_change_callback(move |is_checked| {
+			state_switch2.set(is_checked);
+		});
 
 	Body::new()
 		.with_child(&h_stack)
 		.with_child(&icon)
-		.with_child(&switch);
+		.with_child(&switch)
+		.with_child(&switch2);
 
 	Ok(())
 }
