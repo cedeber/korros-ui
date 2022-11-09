@@ -14,6 +14,12 @@ impl ViewComponent for HStack {
 	}
 }
 
+impl Default for HStack {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl HStack {
 	pub fn new() -> Self {
 		let document = document();
@@ -23,8 +29,14 @@ impl HStack {
 			.dyn_into::<HtmlElement>()
 			.unwrap_throw();
 
-		stack.set_attribute("class", "h-stack").unwrap_throw();
-		stack.style().set_property("gap", "5px").unwrap_throw();
+		stack.style().set_css_text(
+			//language=CSS prefix=*{ suffix=}
+			r"
+    display: flex;
+    align-items: center;
+    gap: 5px;
+",
+		);
 
 		HStack { element: stack }
 	}
@@ -64,6 +76,12 @@ impl ViewComponent for VStack {
 	}
 }
 
+impl Default for VStack {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl VStack {
 	pub fn new() -> Self {
 		let document = document();
@@ -73,8 +91,14 @@ impl VStack {
 			.dyn_into::<HtmlElement>()
 			.unwrap_throw();
 
-		stack.set_attribute("class", "v-stack").unwrap_throw();
-		stack.style().set_property("gap", "5px").unwrap_throw();
+		stack.style().set_css_text(
+			//language=CSS prefix=*{ suffix=}
+			r"
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+",
+		);
 
 		VStack { element: stack }
 	}
