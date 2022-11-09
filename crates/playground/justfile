@@ -1,9 +1,9 @@
 debug:
 	cargo build --lib --target wasm32-unknown-unknown
-	wasm-bindgen --target web --out-dir ../../out/assets --out-name korros --no-typescript ../../target/wasm32-unknown-unknown/debug/korros.wasm
+	wasm-bindgen --target web --out-dir ../../out/assets --out-name korros --no-typescript ../../target/wasm32-unknown-unknown/debug/playground.wasm
 	wasm-opt -O1 ../../out/assets/korros_bg.wasm -o ../../out/assets/korros_bg.wasm
 
 release:
 	cargo build --release --lib --target wasm32-unknown-unknown
-	wasm-bindgen --target web --out-dir ../../out/assets --out-name korros --no-typescript ../../target/wasm32-unknown-unknown/release/korros.wasm
+	wasm-bindgen --target web --out-dir ../../out/assets --out-name korros --no-typescript ../../target/wasm32-unknown-unknown/release/playground.wasm
 	wasm-opt -Os ../../out/assets/korros_bg.wasm -o ../../out/assets/korros_bg.wasm
