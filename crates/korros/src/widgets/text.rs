@@ -27,7 +27,7 @@ impl Text {
 		Text { element, container }.set_text(text)
 	}
 
-	pub fn new_with_signal<T: Into<String>>(signal: impl Signal<Item = T> + 'static) -> Self {
+	pub fn new_with_text_signal<T: Into<String>>(signal: impl Signal<Item = T> + 'static) -> Self {
 		let text = Text::new("");
 		let clone = text.clone();
 		let future = signal.for_each(move |value| {

@@ -9,6 +9,8 @@ use web_sys::{HtmlInputElement, Node};
 
 struct ToogleState {
 	callback: Option<Box<dyn Fn(bool) + 'static>>,
+	checked: bool,
+	disabled: bool,
 }
 
 #[derive(Clone)]
@@ -25,7 +27,7 @@ impl ViewComponent for Toggle {
 
 // TODO: Add an inner signal to update the checked attribute/state?
 impl Toggle {
-	pub fn new(checked: bool) -> Self {
+	pub fn new(checked: bool, disabled: bool) -> Self {
 		let element = document()
 			.create_element("input")
 			.unwrap_throw()
@@ -35,31 +37,39 @@ impl Toggle {
 
 		let toggle = Toggle {
 			element,
-			state: Arc::new(Mutex::new(ToogleState { callback: None })),
+			state: Arc::new(Mutex::new(ToogleState {
+				callback: None,
+				checked,
+				disabled,
+			})),
 		}
-		.set_checked(checked);
+		.set_checked(checked)
+		.set_disabled(disabled);
 
 		let clone = toggle.clone();
 
 		// TODO: We should set the event later, only if a callback is set.
 		EventListener::new(&toggle.element, "change", move |_| {
-			let state2 = Arc::clone(&clone.state);
-			let data2 = state2.lock().unwrap_throw();
+			let state = Arc::clone(&clone.state);
+			let data = state.lock().unwrap_throw();
 			let is_checked = clone.element.checked();
 
-			clone.clone().set_checked(is_checked);
-
-			if let Some(cb) = &data2.callback {
+			if let Some(cb) = &data.callback {
 				cb(is_checked);
 			}
+
+			// Unlock Mutex guard, before usage again in set_checked.
+			// Mutex::unlock() is unstable.
+			drop(data);
+			clone.clone().set_checked(is_checked);
 		})
 		.forget();
 
 		toggle
 	}
 
-	pub fn new_with_signal(signal: impl Signal<Item = bool> + 'static) -> Self {
-		let toggle = Toggle::new(false);
+	pub fn new_with_checked_signal(signal: impl Signal<Item = bool> + 'static) -> Self {
+		let toggle = Toggle::new(false, false);
 		let clone = toggle.clone();
 		let future = signal.for_each(move |checked| {
 			let was_checked = clone.element.checked();
@@ -85,6 +95,19 @@ impl Toggle {
 		toggle
 	}
 
+	pub fn with_disabled_signal(self, signal: impl Signal<Item = bool> + 'static) -> Self {
+		let clone = self.clone();
+		let future = signal.for_each(move |disabled| {
+			clone.clone().set_disabled(disabled);
+
+			async {}
+		});
+
+		spawn_local(future);
+
+		self
+	}
+
 	pub fn with_change_callback(self, callback: impl Fn(bool) + 'static) -> Self {
 		let state = Arc::clone(&self.state);
 		let mut data = state.lock().unwrap_throw();
@@ -94,11 +117,33 @@ impl Toggle {
 		self
 	}
 
-	fn set_checked(self, value: bool) -> Self {
-		self.element.set_checked(value);
-		match value {
+	fn set_checked(self, checked: bool) -> Self {
+		let state = Arc::clone(&self.state);
+		let mut data = state.lock().unwrap_throw();
+
+		data.checked = checked;
+
+		self.element.set_checked(checked);
+
+		match checked {
 			true => self.element.set_attribute("checked", "").unwrap_throw(),
 			false => self.element.remove_attribute("checked").unwrap_throw(),
+		}
+
+		self
+	}
+
+	fn set_disabled(self, disabled: bool) -> Self {
+		let state = Arc::clone(&self.state);
+		let mut data = state.lock().unwrap_throw();
+
+		data.disabled = disabled;
+
+		self.element.set_disabled(disabled);
+
+		match disabled {
+			true => self.element.set_attribute("disabled", "").unwrap_throw(),
+			false => self.element.remove_attribute("disabled").unwrap_throw(),
 		}
 
 		self

@@ -20,12 +20,12 @@ pub fn main_wasm() -> Result<(), JsValue> {
 	let state = Mutable::new("Default");
 	let state_bool = Mutable::new(false);
 
-	let text1 = Text::new_with_signal(state.signal());
-	let text2 = Text::new_with_signal(state_bool.signal_ref(|value| match value {
+	let text1 = Text::new_with_text_signal(state.signal());
+	let text2 = Text::new_with_text_signal(state_bool.signal_ref(|value| match value {
 		true => "True",
 		false => "False",
 	}));
-	let text3 = Text::new_with_signal(state.signal().map(|value| ["Hello,", value].join(" ")));
+	let text3 = Text::new_with_text_signal(state.signal().map(|value| ["Hello,", value].join(" ")));
 
 	let state_button = state_bool.clone();
 	let button = Button::new("Click me!")
@@ -51,12 +51,13 @@ pub fn main_wasm() -> Result<(), JsValue> {
 
 	let state_switch = state_bool.clone();
 	let state_switch2 = state_bool.clone();
-	let switch =
-		Toggle::new(false).with_change_callback(move |is_checked| state_switch.set(is_checked));
-	let switch2 =
-		Toggle::new_with_signal(state_switch2.signal()).with_change_callback(move |is_checked| {
+	let switch = Toggle::new(true, true)
+		.with_change_callback(move |is_checked| state_switch.set(is_checked));
+	let switch2 = Toggle::new_with_checked_signal(state_switch2.signal()).with_change_callback(
+		move |is_checked| {
 			state_switch2.set(is_checked);
-		});
+		},
+	);
 
 	Body::new()
 		.with_child(&h_stack)
