@@ -6,6 +6,7 @@ pub mod icon;
 pub mod stack;
 pub mod text;
 pub mod toggle;
+pub mod visually_hidden;
 
 pub trait ViewComponent {
 	fn render(&self) -> &Node;
