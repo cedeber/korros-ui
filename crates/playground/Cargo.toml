@@ -1,6 +1,6 @@
 [package]
-name = "korros"
-version = "0.1.0"
+name = "playground"
+version = "0.0.0"
 edition = "2021"
 publish = false
 
@@ -8,9 +8,10 @@ publish = false
 crate-type = ["cdylib", "rlib"]
 
 [features]
-default = []
+default = ["console_error_panic_hook"]
 
 [dependencies]
+console_error_panic_hook = { version = "0.1.7", optional = true }
 wasm-bindgen = { version = "0.2.83", features = ["serde-serialize"] }
 wasm-bindgen-futures = "0.4.33"
 js-sys = "0.3.60"
@@ -29,6 +30,4 @@ web-sys = { version = "0.3.60", features = [
 gloo = "0.8.0"
 anyhow = "1.0.66"
 futures-signals = "0.3.31"
-
-[dev-dependencies]
-wasm-bindgen-test = "0.3.33"
+korros = { path = "../korros" }

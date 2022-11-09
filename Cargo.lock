@@ -324,7 +324,6 @@ name = "korros"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "console_error_panic_hook",
  "futures-signals",
  "gloo",
  "js-sys",
@@ -386,6 +385,21 @@ name = "pin-utils"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8b870d8c151b6f2fb93e84a13146138f05d02ed11c7e7c54f8826aaaf7c9f184"
+
+[[package]]
+name = "playground"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "console_error_panic_hook",
+ "futures-signals",
+ "gloo",
+ "js-sys",
+ "korros",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
+]
 
 [[package]]
 name = "proc-macro2"
