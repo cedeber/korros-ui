@@ -23,7 +23,7 @@ impl VisuallyHidden {
 			.unwrap_throw();
 
 		element
-			.set_attribute("class", "visually-hidden")
+			.set_attribute("class", "korros__visually-hidden")
 			.unwrap_throw();
 
 		VisuallyHidden { element }

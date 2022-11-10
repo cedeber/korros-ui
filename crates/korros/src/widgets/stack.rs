@@ -29,7 +29,9 @@ impl HStack {
 			.dyn_into::<HtmlElement>()
 			.unwrap_throw();
 
-		stack.set_attribute("class", "h-stack").unwrap_throw();
+		stack
+			.set_attribute("class", "korros__h-stack")
+			.unwrap_throw();
 		stack.style().set_property("gap", "5px").unwrap_throw();
 
 		HStack { element: stack }
@@ -85,7 +87,9 @@ impl VStack {
 			.dyn_into::<HtmlElement>()
 			.unwrap_throw();
 
-		stack.set_attribute("class", "v-stack").unwrap_throw();
+		stack
+			.set_attribute("class", "korros__v-stack")
+			.unwrap_throw();
 		stack.style().set_property("gap", "5px").unwrap_throw();
 
 		VStack { element: stack }

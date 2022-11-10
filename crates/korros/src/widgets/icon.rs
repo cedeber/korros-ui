@@ -26,7 +26,7 @@ impl Icon {
 		let element = document().create_text_node(icon);
 
 		parent
-			.set_attribute("class", "material-symbols-outlined")
+			.set_attribute("class", "material-symbols-outlined korros__icon")
 			.unwrap_throw();
 		parent.append_child(&element).unwrap_throw();
 

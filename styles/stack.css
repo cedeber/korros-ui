@@ -1,13 +1,13 @@
-.h-stack {
+.korros__h-stack {
   display: flex;
   align-items: center;
 }
 
-.h-stack[data-wrap] {
+.korros__h-stack[data-wrap] {
   flex-wrap: wrap;
 }
 
-.v-stack {
+.korros__v-stack {
   display: flex;
   flex-direction: column;
 }
