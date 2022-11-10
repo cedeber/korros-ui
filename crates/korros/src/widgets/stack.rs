@@ -29,14 +29,8 @@ impl HStack {
 			.dyn_into::<HtmlElement>()
 			.unwrap_throw();
 
-		stack.style().set_css_text(
-			//language=CSS prefix=*{ suffix=}
-			r"
-    display: flex;
-    align-items: center;
-    gap: 5px;
-",
-		);
+		stack.set_attribute("class", "h-stack").unwrap_throw();
+		stack.style().set_property("gap", "5px").unwrap_throw();
 
 		HStack { element: stack }
 	}
@@ -91,14 +85,8 @@ impl VStack {
 			.dyn_into::<HtmlElement>()
 			.unwrap_throw();
 
-		stack.style().set_css_text(
-			//language=CSS prefix=*{ suffix=}
-			r"
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-",
-		);
+		stack.set_attribute("class", "v-stack").unwrap_throw();
+		stack.style().set_property("gap", "5px").unwrap_throw();
 
 		VStack { element: stack }
 	}
