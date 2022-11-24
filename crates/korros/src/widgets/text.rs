@@ -1,14 +1,15 @@
 use super::ViewComponent;
+use crate::utils::element::create_element;
 use futures_signals::signal::{Signal, SignalExt};
 use gloo::utils::document;
 use wasm_bindgen::UnwrapThrowExt;
 use wasm_bindgen_futures::spawn_local;
-use web_sys::{Element, Node, Text as DomText};
+use web_sys::{HtmlSpanElement, Node, Text as DomText};
 
 #[derive(Clone)]
 pub struct Text {
 	element: DomText,
-	container: Element,
+	container: HtmlSpanElement,
 }
 
 impl ViewComponent for Text {
@@ -21,13 +22,13 @@ impl ViewComponent for Text {
 
 impl Text {
 	pub fn new(text: &str) -> Self {
-		let container = document().create_element("span").unwrap_throw();
+		let container: HtmlSpanElement = create_element("span");
 		let element = document().create_text_node(text);
 
 		Text { element, container }.set_text(text)
 	}
 
-	pub fn new_with_text_signal<T: Into<String>>(signal: impl Signal<Item = T> + 'static) -> Self {
+	pub fn new_with_text_signal<U: Into<String>>(signal: impl Signal<Item = U> + 'static) -> Self {
 		let text = Text::new("");
 		let clone = text.clone();
 		let future = signal.for_each(move |value| {
@@ -40,7 +41,7 @@ impl Text {
 		text
 	}
 
-	fn set_text<T: Into<String>>(self, text: T) -> Self {
+	fn set_text<U: Into<String>>(self, text: U) -> Self {
 		let text = text.into();
 
 		if !text.is_empty() {

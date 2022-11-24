@@ -1,9 +1,9 @@
-use std::sync::{Arc, Mutex};
-
 use super::ViewComponent;
+use crate::utils::element::create_element;
 use futures_signals::signal::{Signal, SignalExt};
-use gloo::{events::EventListener, utils::document};
-use wasm_bindgen::{JsCast, UnwrapThrowExt};
+use gloo::events::EventListener;
+use std::sync::{Arc, Mutex};
+use wasm_bindgen::UnwrapThrowExt;
 use wasm_bindgen_futures::spawn_local;
 use web_sys::{HtmlInputElement, Node};
 
@@ -28,11 +28,7 @@ impl ViewComponent for Toggle {
 // TODO: Add an inner signal to update the checked attribute/state?
 impl Toggle {
 	pub fn new(checked: bool, disabled: bool) -> Self {
-		let element = document()
-			.create_element("input")
-			.unwrap_throw()
-			.dyn_into::<HtmlInputElement>()
-			.unwrap_throw();
+		let element: HtmlInputElement = create_element("input");
 		element.set_attribute("type", "checkbox").unwrap_throw();
 
 		let toggle = Toggle {

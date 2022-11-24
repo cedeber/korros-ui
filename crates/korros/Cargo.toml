@@ -25,6 +25,12 @@ web-sys = { version = "0.3.60", features = [
     "DomStringMap",
     "MouseEvent",
     "KeyboardEvent",
+    "HtmlBodyElement",
+    "HtmlDivElement",
+    "HtmlButtonElement",
+    "HtmlStyleElement",
+    "HtmlSpanElement",
+    "SvgsvgElement",
 ] }
 gloo = "0.8.0"
 anyhow = "1.0.66"

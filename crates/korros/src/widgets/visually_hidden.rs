@@ -1,11 +1,11 @@
 use super::ViewComponent;
-use gloo::utils::document;
-use wasm_bindgen::{JsCast, UnwrapThrowExt};
-use web_sys::{HtmlElement, Node};
+use crate::utils::element::create_element;
+use wasm_bindgen::UnwrapThrowExt;
+use web_sys::{HtmlDivElement, Node};
 
 #[derive(Clone)]
 pub struct VisuallyHidden {
-	element: HtmlElement,
+	element: HtmlDivElement,
 }
 
 impl ViewComponent for VisuallyHidden {
@@ -15,12 +15,8 @@ impl ViewComponent for VisuallyHidden {
 }
 
 impl VisuallyHidden {
-	pub fn new(text: &str) -> Self {
-		let element = document()
-			.create_element("div")
-			.unwrap_throw()
-			.dyn_into::<HtmlElement>()
-			.unwrap_throw();
+	pub fn new() -> Self {
+		let element: HtmlDivElement = create_element("div");
 
 		element
 			.set_attribute("class", "korros__visually-hidden")

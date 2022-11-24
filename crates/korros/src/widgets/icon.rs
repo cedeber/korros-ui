@@ -1,7 +1,8 @@
 use super::ViewComponent;
+use crate::utils::element::create_element;
 use gloo::utils::document;
 use wasm_bindgen::UnwrapThrowExt;
-use web_sys::{Element, Node, Text as DomText};
+use web_sys::{HtmlSpanElement, Node, Text as DomText};
 
 pub enum IconSize {
 	Normal,
@@ -11,7 +12,7 @@ pub enum IconSize {
 #[derive(Clone)]
 pub struct Icon {
 	element: DomText,
-	parent: Element,
+	parent: HtmlSpanElement,
 }
 
 impl ViewComponent for Icon {
@@ -22,7 +23,7 @@ impl ViewComponent for Icon {
 
 impl Icon {
 	pub fn new(icon: &str) -> Self {
-		let parent = document().create_element("span").unwrap_throw();
+		let parent: HtmlSpanElement = create_element("span");
 		let element = document().create_text_node(icon);
 
 		parent

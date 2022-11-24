@@ -1,15 +1,14 @@
-use gloo::utils::document;
-use wasm_bindgen::{JsCast, UnwrapThrowExt};
-use web_sys::HtmlElement;
-
 use super::ViewComponent;
+use crate::utils::element::create_element;
+use wasm_bindgen::UnwrapThrowExt;
+use web_sys::{HtmlDivElement, Node};
 
 pub struct HStack {
-	element: HtmlElement,
+	element: HtmlDivElement,
 }
 
 impl ViewComponent for HStack {
-	fn render(&self) -> &web_sys::Node {
+	fn render(&self) -> &Node {
 		&self.element
 	}
 }
@@ -22,12 +21,7 @@ impl Default for HStack {
 
 impl HStack {
 	pub fn new() -> Self {
-		let document = document();
-		let stack = document
-			.create_element("div")
-			.unwrap_throw()
-			.dyn_into::<HtmlElement>()
-			.unwrap_throw();
+		let stack: HtmlDivElement = create_element("div");
 
 		stack
 			.set_attribute("class", "korros__h-stack")
@@ -63,11 +57,11 @@ impl HStack {
 }
 
 pub struct VStack {
-	element: HtmlElement,
+	element: HtmlDivElement,
 }
 
 impl ViewComponent for VStack {
-	fn render(&self) -> &web_sys::Node {
+	fn render(&self) -> &Node {
 		&self.element
 	}
 }
@@ -80,12 +74,7 @@ impl Default for VStack {
 
 impl VStack {
 	pub fn new() -> Self {
-		let document = document();
-		let stack = document
-			.create_element("div")
-			.unwrap_throw()
-			.dyn_into::<HtmlElement>()
-			.unwrap_throw();
+		let stack: HtmlDivElement = create_element("div");
 
 		stack
 			.set_attribute("class", "korros__v-stack")

@@ -1,12 +1,11 @@
-use std::sync::{Arc, Mutex};
-
+use super::ViewComponent;
+use crate::utils::element::create_element;
 use futures_signals::signal::{Signal, SignalExt};
-use gloo::{events::EventListener, utils::document};
+use gloo::events::EventListener;
+use std::sync::{Arc, Mutex};
 use wasm_bindgen::{JsCast, UnwrapThrowExt};
 use wasm_bindgen_futures::spawn_local;
-use web_sys::{Element, Event, KeyboardEvent, Node};
-
-use super::ViewComponent;
+use web_sys::{Event, HtmlButtonElement, KeyboardEvent, Node};
 
 pub enum ButtonIntent {
 	Filled,
@@ -25,7 +24,7 @@ struct ButtonState {
 
 #[derive(Clone)]
 pub struct Button {
-	element: Element,
+	element: HtmlButtonElement,
 	state: Arc<Mutex<ButtonState>>,
 }
 
@@ -37,8 +36,7 @@ impl ViewComponent for Button {
 
 impl Button {
 	pub fn new(label: &str) -> Self {
-		let document = document();
-		let button = document.create_element("button").unwrap_throw();
+		let button: HtmlButtonElement = create_element("button");
 		button
 			.set_attribute("class", "action-button")
 			.unwrap_throw();
