@@ -23,7 +23,7 @@ pub fn test() -> impl ViewComponent {
 		.with_intent(ButtonIntent::Filled)
 		.on_press(move |_| {
 			state.set("I changed the HTML text.");
-			state_button.set(!state_button.get())
+			state_button.set(!state_button.get());
 		});
 
 	let state_switch2 = state_bool.clone();
