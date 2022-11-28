@@ -57,7 +57,7 @@ impl Button {
 	pub fn new(label: &str) -> Self {
 		let button: HtmlButtonElement = create_element("button");
 		button
-			.set_attribute("class", "korros-action-button")
+			.set_attribute("class", "korros__action-button")
 			.unwrap_throw();
 
 		let text = if label.is_empty() {
