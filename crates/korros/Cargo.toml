@@ -14,7 +14,13 @@ default = []
 wasm-bindgen = { version = "0.2.83", features = ["serde-serialize"] }
 wasm-bindgen-futures = "0.4.33"
 js-sys = "0.3.60"
-web-sys = { version = "0.3.60", features = [
+gloo = "0.8.0"
+anyhow = "1.0.66"
+futures-signals = "0.3.31"
+
+[dependencies.web-sys]
+version = "0.3.60"
+features = [
     "Window",
     "Document",
     "Element",
@@ -31,10 +37,8 @@ web-sys = { version = "0.3.60", features = [
     "HtmlStyleElement",
     "HtmlSpanElement",
     "SvgsvgElement",
-] }
-gloo = "0.8.0"
-anyhow = "1.0.66"
-futures-signals = "0.3.31"
+    "DocumentFragment",
+]
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3.33"

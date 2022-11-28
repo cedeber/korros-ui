@@ -2,7 +2,9 @@ use web_sys::Node;
 
 pub mod action_button;
 pub mod body;
+pub mod fragment;
 pub mod icon;
+pub mod progress_circle;
 pub mod stack;
 pub mod text;
 pub mod toggle;

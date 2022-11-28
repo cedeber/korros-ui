@@ -1,4 +1,8 @@
-use super::ViewComponent;
+use super::{
+	icon::{Icon, IconSize},
+	text::Text,
+	ViewComponent,
+};
 use crate::utils::element::create_element;
 use futures_signals::signal::{Signal, SignalExt};
 use gloo::events::EventListener;
@@ -26,10 +30,25 @@ struct ButtonState {
 pub struct Button {
 	element: HtmlButtonElement,
 	state: Arc<Mutex<ButtonState>>,
+	text: Option<Text>,
+	left_icon: Option<Icon>,
+	right_icon: Option<Icon>,
 }
 
 impl ViewComponent for Button {
 	fn render(&self) -> &Node {
+		if let Some(icon) = &self.left_icon {
+			self.element.append_child(icon.render()).unwrap_throw();
+		}
+
+		if let Some(text) = &self.text {
+			self.element.append_child(text.render()).unwrap_throw();
+		}
+
+		if let Some(icon) = &self.right_icon {
+			self.element.append_child(icon.render()).unwrap_throw();
+		}
+
 		&self.element
 	}
 }
@@ -38,8 +57,14 @@ impl Button {
 	pub fn new(label: &str) -> Self {
 		let button: HtmlButtonElement = create_element("button");
 		button
-			.set_attribute("class", "action-button")
+			.set_attribute("class", "korros-action-button")
 			.unwrap_throw();
+
+		let text = if label.is_empty() {
+			None
+		} else {
+			Some(Text::new(label))
+		};
 
 		Button {
 			element: button,
@@ -47,8 +72,10 @@ impl Button {
 				disabled: false,
 				loading: false,
 			})),
+			text,
+			left_icon: None,
+			right_icon: None,
 		}
-		.set_label(label)
 		.with_intent(ButtonIntent::Filled)
 	}
 
@@ -139,8 +166,14 @@ impl Button {
 		self
 	}
 
-	fn set_label(self, label: &str) -> Self {
-		self.element.set_text_content(Some(label));
+	pub fn with_icon(mut self, icon: &str) -> Self {
+		self.left_icon = Some(Icon::new(icon).with_size(IconSize::Small));
+
 		self
 	}
+
+	// fn set_label(self, label: &str) -> Self {
+	// 	self.element.set_text_content(Some(label));
+	// 	self
+	// }
 }

@@ -7,6 +7,8 @@
   font-size: 22px;
   user-select: none;
   -webkit-user-select: none;
+  /* Icons are always a bit lighter than text */
+  opacity: 0.9;
 }
 
 .korros__icon[data-size="small"] {
