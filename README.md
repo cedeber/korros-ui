@@ -4,7 +4,7 @@
 
 - Write Web application with Rust
 - Swift UI, Flutter, Druid, Frui -like UI toolkit
-- No JS(x) or CSS -like syntax or macro
+- No JSX or CSS -like syntax or macro
 - With Functional Reactive Programming
 - Very opinionated Design and UX
 - Fully accessible like react-aria
