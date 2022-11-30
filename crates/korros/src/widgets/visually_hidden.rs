@@ -14,6 +14,12 @@ impl ViewComponent for VisuallyHidden {
 	}
 }
 
+impl Default for VisuallyHidden {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl VisuallyHidden {
 	pub fn new() -> Self {
 		let element: HtmlDivElement = create_element("div");
