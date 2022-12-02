@@ -31,7 +31,7 @@ impl HStack {
 		HStack { element: stack }
 	}
 
-	pub fn with_gap(self, gap: u32) -> Self {
+	pub fn gap(self, gap: u32) -> Self {
 		self.element
 			.style()
 			.set_property("gap", &format!("{gap}px"))
@@ -40,7 +40,7 @@ impl HStack {
 		self
 	}
 
-	pub fn with_padding(self, top_bottom: u32, left_right: u32) -> Self {
+	pub fn padding(self, top_bottom: u32, left_right: u32) -> Self {
 		self.element
 			.style()
 			.set_property("padding", &format!("{top_bottom}px {left_right}px"))
@@ -49,7 +49,7 @@ impl HStack {
 		self
 	}
 
-	pub fn with_child(self, element: &impl ViewComponent) -> Self {
+	pub fn child(self, element: &impl ViewComponent) -> Self {
 		self.element.append_child(element.render()).unwrap_throw();
 
 		self
@@ -84,7 +84,7 @@ impl VStack {
 		VStack { element: stack }
 	}
 
-	pub fn with_gap(self, gap: u32) -> Self {
+	pub fn gap(self, gap: u32) -> Self {
 		self.element
 			.style()
 			.set_property("gap", &format!("{gap}px"))
@@ -93,7 +93,7 @@ impl VStack {
 		self
 	}
 
-	pub fn with_padding(self, top_bottom: u32, left_right: u32) -> Self {
+	pub fn padding(self, top_bottom: u32, left_right: u32) -> Self {
 		self.element
 			.style()
 			.set_property("padding", &format!("{top_bottom}px {left_right}px"))
@@ -102,7 +102,7 @@ impl VStack {
 		self
 	}
 
-	pub fn with_child(self, element: &impl ViewComponent) -> Self {
+	pub fn child(self, element: &impl ViewComponent) -> Self {
 		self.element.append_child(element.render()).unwrap_throw();
 
 		self

@@ -76,7 +76,7 @@ impl Button {
 			left_icon: None,
 			right_icon: None,
 		}
-		.with_intent(ButtonIntent::Filled)
+		.intent(ButtonIntent::Filled)
 	}
 
 	pub fn on_press(self, callback: impl Fn(&Event) + 'static) -> Self {
@@ -110,7 +110,7 @@ impl Button {
 		self
 	}
 
-	pub fn with_intent(self, intent: ButtonIntent) -> Self {
+	pub fn intent(self, intent: ButtonIntent) -> Self {
 		match intent {
 			ButtonIntent::Filled => self
 				.element
@@ -141,7 +141,7 @@ impl Button {
 		self
 	}
 
-	pub fn with_disabled_signal(self, signal: impl Signal<Item = bool> + 'static) -> Self {
+	pub fn disabled_signal(self, signal: impl Signal<Item = bool> + 'static) -> Self {
 		let clone = self.clone();
 		let future = signal.for_each(move |value| {
 			clone.clone().set_disabled(value);
@@ -166,8 +166,8 @@ impl Button {
 		self
 	}
 
-	pub fn with_icon(mut self, icon: &str) -> Self {
-		self.left_icon = Some(Icon::new(icon).with_size(IconSize::Small));
+	pub fn icon(mut self, icon: &str) -> Self {
+		self.left_icon = Some(Icon::new(icon).size(IconSize::Small));
 
 		self
 	}

@@ -117,7 +117,7 @@ impl ProgressCircle {
 		}
 	}
 
-	pub fn with_progress_signal(self, signal: impl Signal<Item = f32> + 'static) -> Self {
+	pub fn progress_signal(self, signal: impl Signal<Item = f32> + 'static) -> Self {
 		let clone = self.clone();
 		let future = signal.for_each(move |value| {
 			let circle_clone = clone.clone();

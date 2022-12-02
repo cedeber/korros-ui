@@ -64,7 +64,7 @@ impl Toggle {
 		toggle
 	}
 
-	pub fn new_with_checked_signal(signal: impl Signal<Item = bool> + 'static) -> Self {
+	pub fn new_signal(signal: impl Signal<Item = bool> + 'static) -> Self {
 		let toggle = Toggle::new(false, false);
 		let clone = toggle.clone();
 		let future = signal.for_each(move |checked| {
@@ -91,7 +91,7 @@ impl Toggle {
 		toggle
 	}
 
-	pub fn with_disabled_signal(self, signal: impl Signal<Item = bool> + 'static) -> Self {
+	pub fn disabled_signal(self, signal: impl Signal<Item = bool> + 'static) -> Self {
 		let clone = self.clone();
 		let future = signal.for_each(move |disabled| {
 			clone.clone().set_disabled(disabled);
@@ -104,7 +104,7 @@ impl Toggle {
 		self
 	}
 
-	pub fn with_change_callback(self, callback: impl Fn(bool) + 'static) -> Self {
+	pub fn on_change(self, callback: impl Fn(bool) + 'static) -> Self {
 		let state = Arc::clone(&self.state);
 		let mut data = state.lock().unwrap_throw();
 

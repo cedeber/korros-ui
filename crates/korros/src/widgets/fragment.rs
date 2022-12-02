@@ -26,7 +26,7 @@ impl Fragment {
 		Fragment { element }
 	}
 
-	pub fn with_child(self, element: &impl ViewComponent) -> Self {
+	pub fn child(self, element: &impl ViewComponent) -> Self {
 		self.element.append_child(element.render()).unwrap_throw();
 
 		self

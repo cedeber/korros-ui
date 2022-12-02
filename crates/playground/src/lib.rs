@@ -14,7 +14,7 @@ pub fn main_wasm() -> Result<(), JsValue> {
 
 	let offset = Mutable::new(0.0);
 	let progress = ProgressCircle::new(24.0, true);
-	let progress2 = ProgressCircle::new(24.0, false).with_progress_signal(offset.signal());
+	let progress2 = ProgressCircle::new(24.0, false).progress_signal(offset.signal());
 
 	let offset_timeout = offset.clone();
 	let timeout = Interval::new(40, move || {
@@ -22,18 +22,18 @@ pub fn main_wasm() -> Result<(), JsValue> {
 	});
 	timeout.forget();
 
-	let text = Text::new_with_text_signal(offset.signal().map(|value| format!("{value}%")));
+	let text = Text::new_signal(offset.signal().map(|value| format!("{value}%")));
 
 	let final_stack = VStack::new()
-		.with_child(&components::test())
-		.with_child(&components::buttons())
-		.with_child(&progress)
-		.with_child(&progress2)
-		.with_child(&text)
-		.with_gap(20)
-		.with_padding(10, 20);
+		.child(&components::test())
+		.child(&components::buttons())
+		.child(&progress)
+		.child(&progress2)
+		.child(&text)
+		.gap(20)
+		.padding(10, 20);
 
-	Body::new().with_child(&final_stack);
+	Body::new().child(&final_stack);
 
 	Ok(())
 }
