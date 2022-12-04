@@ -2,7 +2,7 @@ use super::ViewComponent;
 use crate::utils::element::create_element;
 use futures_signals::signal::{Signal, SignalExt};
 use gloo::events::EventListener;
-use std::sync::{Arc, Mutex};
+use std::{cell::RefCell, rc::Rc};
 use wasm_bindgen::UnwrapThrowExt;
 use wasm_bindgen_futures::spawn_local;
 use web_sys::{HtmlInputElement, Node};
@@ -16,7 +16,7 @@ struct ToogleState {
 #[derive(Clone)]
 pub struct Toggle {
 	element: HtmlInputElement,
-	state: Arc<Mutex<ToogleState>>,
+	state: Rc<RefCell<ToogleState>>,
 }
 
 impl ViewComponent for Toggle {
@@ -33,7 +33,7 @@ impl Toggle {
 
 		let toggle = Toggle {
 			element,
-			state: Arc::new(Mutex::new(ToogleState {
+			state: Rc::new(RefCell::new(ToogleState {
 				callback: None,
 				checked,
 				disabled,
@@ -46,17 +46,13 @@ impl Toggle {
 
 		// TODO: We should set the event later, only if a callback is set.
 		EventListener::new(&toggle.element, "change", move |_| {
-			let state = Arc::clone(&clone.state);
-			let data = state.lock().unwrap_throw();
+			let state = clone.state.borrow();
 			let is_checked = clone.element.checked();
 
-			if let Some(cb) = &data.callback {
+			if let Some(cb) = &state.callback {
 				cb(is_checked);
 			}
 
-			// Unlock Mutex guard, before usage again in set_checked.
-			// Mutex::unlock() is unstable.
-			drop(data);
 			clone.clone().set_checked(is_checked);
 		})
 		.forget();
@@ -67,14 +63,14 @@ impl Toggle {
 	pub fn new_signal(signal: impl Signal<Item = bool> + 'static) -> Self {
 		let toggle = Toggle::new(false, false);
 		let clone = toggle.clone();
+
 		let future = signal.for_each(move |checked| {
+			let state = clone.state.borrow();
 			let was_checked = clone.element.checked();
 
 			clone.clone().set_checked(checked);
 
-			let state = Arc::clone(&clone.state);
-			let data = state.lock().unwrap_throw();
-			if let Some(cb) = &data.callback {
+			if let Some(cb) = &state.callback {
 				// In case the on_change callback update the attached signal,
 				// we do nothing because the value didn't change.
 				// => Was already set by the UI, aka. on_change.
@@ -87,38 +83,34 @@ impl Toggle {
 		});
 
 		spawn_local(future);
-
 		toggle
 	}
 
 	pub fn disabled_signal(self, signal: impl Signal<Item = bool> + 'static) -> Self {
 		let clone = self.clone();
+
 		let future = signal.for_each(move |disabled| {
 			clone.clone().set_disabled(disabled);
-
 			async {}
 		});
 
 		spawn_local(future);
-
 		self
 	}
 
 	pub fn on_change(self, callback: impl Fn(bool) + 'static) -> Self {
-		let state = Arc::clone(&self.state);
-		let mut data = state.lock().unwrap_throw();
+		let state = Rc::clone(&self.state);
+		let mut state = state.borrow_mut();
 
-		data.callback = Some(Box::new(callback));
-
+		state.callback = Some(Box::new(callback));
 		self
 	}
 
 	fn set_checked(self, checked: bool) -> Self {
-		let state = Arc::clone(&self.state);
-		let mut data = state.lock().unwrap_throw();
+		let state = Rc::clone(&self.state);
+		let mut state = state.borrow_mut();
 
-		data.checked = checked;
-
+		state.checked = checked;
 		self.element.set_checked(checked);
 
 		match checked {
@@ -130,11 +122,10 @@ impl Toggle {
 	}
 
 	fn set_disabled(self, disabled: bool) -> Self {
-		let state = Arc::clone(&self.state);
-		let mut data = state.lock().unwrap_throw();
+		let state = Rc::clone(&self.state);
+		let mut state = state.borrow_mut();
 
-		data.disabled = disabled;
-
+		state.disabled = disabled;
 		self.element.set_disabled(disabled);
 
 		match disabled {
