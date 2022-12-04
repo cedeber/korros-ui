@@ -1,11 +1,7 @@
-use std::{
-	f32::consts::PI,
-	sync::{Arc, Mutex},
-};
-
 use super::ViewComponent;
-use crate::utils::element::{create_element, create_svg_element};
+use crate::utils::element::create_svg_element;
 use futures_signals::signal::{Signal, SignalExt};
+use std::f32::consts::PI;
 use wasm_bindgen::UnwrapThrowExt;
 use wasm_bindgen_futures::spawn_local;
 use web_sys::{Node, SvgAnimateTransformElement, SvgCircleElement, SvgsvgElement};
