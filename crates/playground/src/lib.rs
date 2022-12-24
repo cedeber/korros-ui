@@ -1,8 +1,6 @@
 use futures_signals::signal::{Mutable, SignalExt};
 use gloo::timers::callback::Interval;
-use korros::widgets::progress_circle::ProgressCircle;
-use korros::widgets::text::Text;
-use korros::widgets::{body::Body, stack::VStack};
+use korros::widgets::{body::Body, progress_circle::ProgressCircle, stack::VStack, text::Text};
 use wasm_bindgen::prelude::*;
 
 mod components;
