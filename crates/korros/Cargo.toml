@@ -15,31 +15,30 @@ wasm-bindgen = { version = "0.2.83", features = ["serde-serialize"] }
 wasm-bindgen-futures = "0.4.33"
 js-sys = "0.3.60"
 gloo = "0.8.0"
-anyhow = "1.0.66"
 futures-signals = "0.3.31"
 
 [dependencies.web-sys]
 version = "0.3.60"
 features = [
-    "CssStyleDeclaration",
-    "Document",
-    "DocumentFragment",
-    "DomStringMap",
-    "DomTokenList",
-    "Element",
-    "HtmlBodyElement",
-    "HtmlButtonElement",
-    "HtmlDivElement",
-    "HtmlElement",
-    "HtmlSpanElement",
-    "HtmlStyleElement",
-    "KeyboardEvent",
-    "MouseEvent",
-    "SvgAnimateTransformElement",
-    "SvgCircleElement",
-    "SvgsvgElement",
-    "Text",
-    "Window",
+	"CssStyleDeclaration",
+	"Document",
+	"DocumentFragment",
+	"DomStringMap",
+	"DomTokenList",
+	"Element",
+	"HtmlBodyElement",
+	"HtmlButtonElement",
+	"HtmlDivElement",
+	"HtmlElement",
+	"HtmlSpanElement",
+	"HtmlStyleElement",
+	"KeyboardEvent",
+	"MouseEvent",
+	"SvgAnimateTransformElement",
+	"SvgCircleElement",
+	"SvgsvgElement",
+	"Text",
+	"Window",
 ]
 
 [dev-dependencies]
