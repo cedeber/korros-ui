@@ -9,19 +9,9 @@
 - Very opinionated Design and UX
 - Fully accessible like react-aria
 
-## Available Widgets
+## Links
 
-- Body
-- Fragment
-- VisuallyHidden
-- Text
-- HStack and VStack
-- Icon
-
-### Under development
-
-- Toggle
-- ProgressCircle
+- [All WAI-ARIA roles on MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles)
 
 ## Example
 
@@ -38,3 +28,23 @@ let stack = HStack::new().with_child(&button).with_child(&text);
 
 Body::new().with_child(&stack);
 ```
+
+## Signals
+
+...
+
+## Available Widgets
+
+- Body
+- Fragment
+- VisuallyHidden
+- Text
+- HStack
+- VStack
+- Icon
+- ProgressCircle
+- ActionButton
+
+### Under development
+
+- Toggle
