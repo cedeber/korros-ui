@@ -29,6 +29,7 @@ impl Icon {
 		parent
 			.set_attribute("class", "material-symbols-outlined korros__icon")
 			.unwrap_throw();
+		parent.set_attribute("aria-hidden", "true").unwrap_throw();
 		parent.append_child(&element).unwrap_throw();
 
 		Icon { element, parent }.set_icon(icon)
