@@ -7,7 +7,7 @@ use wasm_bindgen::UnwrapThrowExt;
 use wasm_bindgen_futures::spawn_local;
 use web_sys::{HtmlInputElement, Node};
 
-struct ToogleState {
+struct ToggleState {
 	callback: Option<Box<dyn Fn(bool) + 'static>>,
 	checked: bool,
 	disabled: bool,
@@ -16,7 +16,7 @@ struct ToogleState {
 #[derive(Clone)]
 pub struct Toggle {
 	element: HtmlInputElement,
-	state: Arc<Mutex<ToogleState>>,
+	state: Arc<Mutex<ToggleState>>,
 }
 
 impl ViewComponent for Toggle {
@@ -33,7 +33,7 @@ impl Toggle {
 
 		let toggle = Toggle {
 			element,
-			state: Arc::new(Mutex::new(ToogleState {
+			state: Arc::new(Mutex::new(ToggleState {
 				callback: None,
 				checked,
 				disabled,
