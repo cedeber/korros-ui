@@ -1,20 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<title>Korros UI</title>
-	<meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
-	<link href="assets/korros.js" rel="modulepreload"/>
-	<link href="assets/korros_bg.wasm" rel="modulepreload"/>
-	<!--link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz@8..144&display=swap" rel="stylesheet" /-->
-	<link
-		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-		rel="stylesheet"
-	/>
-	<script type="module">
-		import init from "./assets/korros.js";
+	<head>
+		<title>Korros UI</title>
+		<meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+		<link href="assets/korros.js" rel="modulepreload" />
+		<link href="assets/korros_bg.wasm" rel="modulepreload" />
+		<!--link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz@8..144&display=swap" rel="stylesheet" /-->
+		<link
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+			rel="stylesheet"
+		/>
+		<script type="module">
+			import init from "./assets/korros.js";
 
-		await init();
-	</script>
-</head>
-<body></body>
+			await init();
+		</script>
+		<style>
+			body {
+				background: white;
+				color: var(--stone-700);
+			}
+
+			@media (prefers-color-scheme: dark) {
+				body {
+					background: var(--stone-900);
+					color: var(--stone-100);
+				}
+			}
+		</style>
+	</head>
+	<body></body>
 </html>
