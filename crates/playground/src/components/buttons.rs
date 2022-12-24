@@ -21,37 +21,63 @@ impl Default for Store {
 pub fn buttons() -> impl ViewComponent {
 	let store = Store::default();
 
-	let button2 = Button::new("Danger!")
+	let button_delete = Button::new("Delete")
 		.intent(ButtonIntent::Danger)
 		.disabled_signal(store.disabled.signal())
-		.icon("delete");
-	let button3 = Button::new("Gray")
+		.left_icon("delete");
+	let button_close = Button::new("Close")
 		.intent(ButtonIntent::Gray)
 		.disabled_signal(store.disabled.signal())
-		.icon("refresh");
-	let button4 = Button::new("Outlined")
+		.left_icon("close");
+	let button_outlined = Button::new("Outlined")
 		.intent(ButtonIntent::Outlined)
 		.disabled_signal(store.disabled.signal());
-	let button5 = Button::new("Plain")
+	let button_plain = Button::new("Plain")
 		.intent(ButtonIntent::Plain)
 		.disabled_signal(store.disabled.signal());
-	let button6 = Button::new("Tinted")
+	let button_refresh = Button::new("Refresh")
 		.intent(ButtonIntent::Tinted)
+		.left_icon("refresh")
+		.loading_signal(store.disabled.signal())
 		.disabled_signal(store.disabled.signal());
-	let button7 = Button::new("")
+	let button_arrow_alone = Button::new("")
+		.aria_label("Next")
 		.intent(ButtonIntent::Filled)
 		.disabled_signal(store.disabled.signal())
-		.icon("arrow_forward");
+		.left_icon("arrow_forward");
+	let button_save = Button::new("Save")
+		.intent(ButtonIntent::Filled)
+		.disabled_signal(store.disabled.signal());
+	let button_cancel = Button::new("Cancel")
+		.intent(ButtonIntent::Gray)
+		.disabled_signal(store.disabled.signal());
+	let button_new_folder = Button::new("New Folder")
+		.intent(ButtonIntent::Tinted)
+		.disabled_signal(store.disabled.signal());
+	let button_delete_icon = Button::new("")
+		.aria_label("Delete")
+		.intent(ButtonIntent::Danger)
+		.disabled_signal(store.disabled.signal())
+		.left_icon("delete");
+	let button_next = Button::new("Next")
+		.intent(ButtonIntent::Filled)
+		.disabled_signal(store.disabled.signal())
+		.right_icon("arrow_forward");
 
 	let switch_disabled = Toggle::new_signal(store.disabled.signal())
 		.on_change(move |is_checked| store.disabled.set(is_checked));
 
 	HStack::new()
 		.child(&switch_disabled)
-		.child(&button7)
-		.child(&button3)
-		.child(&button4)
-		.child(&button5)
-		.child(&button6)
-		.child(&button2)
+		.child(&button_arrow_alone)
+		.child(&button_next)
+		.child(&button_save)
+		.child(&button_refresh)
+		.child(&button_new_folder)
+		.child(&button_close)
+		.child(&button_cancel)
+		.child(&button_delete)
+		.child(&button_delete_icon)
+		.child(&button_outlined)
+		.child(&button_plain)
 }

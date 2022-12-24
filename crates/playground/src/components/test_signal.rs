@@ -24,11 +24,11 @@ pub fn test() -> impl ViewComponent {
 		.on_press(move |_| {
 			state.set("I changed the HTML text.");
 			state_button.set(!state_button.get());
-		});
+		})
+		.loading_signal(state_bool.signal());
 
-	let state_switch2 = state_bool.clone();
-	let switch2 = Toggle::new_signal(state_switch2.signal()).on_change(move |is_checked| {
-		state_switch2.set(is_checked);
+	let switch2 = Toggle::new_signal(state_bool.signal()).on_change(move |is_checked| {
+		state_bool.set(is_checked);
 	});
 
 	let text_stack = VStack::new().child(&text1).child(&text2).child(&text3);

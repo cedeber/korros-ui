@@ -1,29 +1,36 @@
 use super::{
+	fragment::{self, Fragment},
 	icon::{Icon, IconSize},
+	progress_circle::ProgressCircle,
 	text::Text,
 	ViewComponent,
 };
 use crate::utils::element::create_element;
 use futures_signals::signal::{Signal, SignalExt};
-use gloo::events::EventListener;
-use std::sync::{Arc, Mutex};
+use gloo::{console::externs::log, events::EventListener};
+use std::{
+	cell::RefCell,
+	rc::Rc,
+	sync::{Arc, Mutex},
+};
 use wasm_bindgen::{JsCast, UnwrapThrowExt};
 use wasm_bindgen_futures::spawn_local;
-use web_sys::{Event, HtmlButtonElement, KeyboardEvent, Node};
+use web_sys::{console::log_1, Event, HtmlButtonElement, HtmlDivElement, KeyboardEvent, Node};
 
 pub enum ButtonIntent {
 	Filled,
 	Tinted,
 	Gray,
+	Danger,
 	Outlined,
 	Plain,
-	Danger,
 }
 
 #[derive(Clone)]
 struct ButtonState {
 	disabled: bool,
 	loading: bool,
+	loading_fragment: Option<Node>,
 }
 
 #[derive(Clone)]
@@ -39,20 +46,35 @@ impl ViewComponent for Button {
 	fn render(&self) -> &Node {
 		if let Some(icon) = &self.left_icon {
 			self.element.append_child(icon.render()).unwrap_throw();
+			self.element
+				.set_attribute("data-icon", "left")
+				.unwrap_throw();
 		}
 
 		if let Some(text) = &self.text {
 			self.element.append_child(text.render()).unwrap_throw();
 		}
 
-		if let Some(icon) = &self.right_icon {
-			self.element.append_child(icon.render()).unwrap_throw();
+		if self.left_icon.is_none() {
+			if let Some(icon) = &self.right_icon {
+				self.element.append_child(icon.render()).unwrap_throw();
+				self.element
+					.set_attribute("data-icon", "right")
+					.unwrap_throw();
+			}
+		}
+
+		if self.text.is_none() {
+			self.element
+				.set_attribute("data-icon", "single")
+				.unwrap_throw();
 		}
 
 		&self.element
 	}
 }
 
+// TODO Add aria-label? or label struct?
 impl Button {
 	pub fn new(label: &str) -> Self {
 		let button: HtmlButtonElement = create_element("button");
@@ -71,6 +93,7 @@ impl Button {
 			state: Arc::new(Mutex::new(ButtonState {
 				disabled: false,
 				loading: false,
+				loading_fragment: None,
 			})),
 			text,
 			left_icon: None,
@@ -79,12 +102,13 @@ impl Button {
 		.intent(ButtonIntent::Filled)
 	}
 
+	/// Won't call the callback is disabled or loading
 	pub fn on_press(self, callback: impl Fn(&Event) + 'static) -> Self {
 		let state = Arc::clone(&self.state);
 
 		let cb = move |e: &Event| {
 			let data = state.lock().unwrap_throw();
-			if !data.disabled {
+			if !data.disabled && !data.loading {
 				callback(e);
 			}
 		};
@@ -153,7 +177,30 @@ impl Button {
 		self
 	}
 
-	fn set_disabled(self, value: bool) -> Self {
+	pub fn left_icon(mut self, icon: &str) -> Self {
+		self.left_icon = Some(Icon::new(icon).size(IconSize::Small));
+
+		self
+	}
+
+	pub fn right_icon(mut self, icon: &str) -> Self {
+		self.right_icon = Some(Icon::new(icon).size(IconSize::Small));
+
+		self
+	}
+	pub fn loading_signal(self, signal: impl Signal<Item = bool> + 'static) -> Self {
+		let clone = self.clone();
+		let future = signal.for_each(move |value| {
+			clone.clone().set_loading(value);
+			async {}
+		});
+
+		spawn_local(future);
+
+		self
+	}
+
+	fn set_disabled(&self, value: bool) {
 		let state = Arc::clone(&self.state);
 		let mut data = state.lock().unwrap_throw();
 		data.disabled = value;
@@ -162,18 +209,43 @@ impl Button {
 			true => self.element.set_attribute("disabled", "").unwrap_throw(),
 			false => self.element.remove_attribute("disabled").unwrap_throw(),
 		};
-
-		self
 	}
 
-	pub fn icon(mut self, icon: &str) -> Self {
-		self.left_icon = Some(Icon::new(icon).size(IconSize::Small));
+	fn set_loading(self, value: bool) {
+		let state = Arc::clone(&self.state);
+		let mut data = state.lock().unwrap_throw();
+		data.loading = value;
+		let loading_fragment = data.loading_fragment.clone();
 
-		self
+		match value {
+			true => {
+				self.element
+					.set_attribute("data-loading", "true")
+					.unwrap_throw();
+
+				if let Some(fragment) = loading_fragment {
+					self.element.remove_child(&fragment).unwrap_throw();
+				}
+
+				let fragment = ProgressCircle::new(18.0, true);
+				let fragment = fragment.render();
+				self.element.append_child(fragment).unwrap_throw();
+				data.loading_fragment = Some(fragment.clone());
+			}
+			false => {
+				self.element.remove_attribute("data-loading").unwrap_throw();
+				if let Some(fragment) = loading_fragment {
+					self.element.remove_child(&fragment).unwrap_throw();
+					data.loading_fragment = None;
+				}
+			}
+		};
 	}
 
-	// fn set_label(self, label: &str) -> Self {
-	// 	self.element.set_text_content(Some(label));
-	// 	self
-	// }
+	pub fn aria_label(self, label: &str) -> Self {
+		self.element
+			.set_attribute("aria-label", label)
+			.unwrap_throw();
+		self
+	}
 }
