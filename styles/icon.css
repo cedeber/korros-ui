@@ -1,16 +1,20 @@
 .material-symbols-outlined {
-  /* font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; */
-  font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 20;
+	/* font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; */
+	font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 20;
 }
 
 .korros__icon {
-  font-size: 22px;
-  user-select: none;
-  -webkit-user-select: none;
-  /* Icons are always a bit lighter than text */
-  opacity: 0.9;
+	width: 22px;
+	height: 22px;
+	font-size: 22px;
+	user-select: none;
+	-webkit-user-select: none;
+	/* Icons are always a bit lighter than text */
+	opacity: 0.95;
 }
 
 .korros__icon[data-size="small"] {
-  font-size: 18px;
+	width: 18px;
+	height: 18px;
+	font-size: 18px;
 }
