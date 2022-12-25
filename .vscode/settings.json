@@ -1,5 +1,6 @@
 {
   "files.associations": {
     "*.css": "scss"
-  }
+  },
+  "editor.rulers": [100]
 }
