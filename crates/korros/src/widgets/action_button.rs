@@ -1,5 +1,4 @@
 use super::{
-	fragment::{self, Fragment},
 	icon::{Icon, IconSize},
 	progress_circle::ProgressCircle,
 	text::Text,
@@ -9,15 +8,11 @@ use crate::utils::element::{
 	append_child, create_element, remove_attribute, remove_child, set_attribute, set_bool_attribute,
 };
 use futures_signals::signal::{Signal, SignalExt};
-use gloo::{console::externs::log, events::EventListener};
-use std::{
-	cell::RefCell,
-	rc::Rc,
-	sync::{Arc, Mutex},
-};
+use gloo::events::EventListener;
+use std::sync::{Arc, Mutex};
 use wasm_bindgen::{JsCast, UnwrapThrowExt};
 use wasm_bindgen_futures::spawn_local;
-use web_sys::{console::log_1, Event, HtmlButtonElement, HtmlDivElement, KeyboardEvent, Node};
+use web_sys::{Event, HtmlButtonElement, KeyboardEvent, Node};
 
 pub enum ButtonIntent {
 	Filled,
