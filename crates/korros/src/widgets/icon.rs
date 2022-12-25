@@ -1,7 +1,6 @@
 use super::ViewComponent;
-use crate::utils::element::create_element;
+use crate::utils::element::{append_child, create_element, remove_attribute, set_attribute};
 use gloo::utils::document;
-use wasm_bindgen::UnwrapThrowExt;
 use web_sys::{HtmlSpanElement, Node, Text as DomText};
 
 pub enum IconSize {
@@ -26,22 +25,17 @@ impl Icon {
 		let parent: HtmlSpanElement = create_element("span");
 		let element = document().create_text_node(icon);
 
-		parent
-			.set_attribute("class", "material-symbols-outlined korros__icon")
-			.unwrap_throw();
-		parent.set_attribute("aria-hidden", "true").unwrap_throw();
-		parent.append_child(&element).unwrap_throw();
+		set_attribute(&parent, "class", "material-symbols-outlined korros__icon");
+		set_attribute(&parent, "aria-hidden", "true");
+		append_child(&parent, &element);
 
 		Icon { element, parent }.set_icon(icon)
 	}
 
 	pub fn size(self, size: IconSize) -> Self {
 		match size {
-			IconSize::Normal => self.parent.remove_attribute("data-size").unwrap_throw(),
-			IconSize::Small => self
-				.parent
-				.set_attribute("data-size", "small")
-				.unwrap_throw(),
+			IconSize::Normal => remove_attribute(&self.parent, "data-size"),
+			IconSize::Small => set_attribute(&self.parent, "data-size", "small"),
 		}
 
 		self

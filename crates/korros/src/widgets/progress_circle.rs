@@ -1,5 +1,5 @@
 use super::ViewComponent;
-use crate::utils::element::{create_element, create_svg_element};
+use crate::utils::element::{append_child, create_element, create_svg_element, set_attribute};
 use futures_signals::signal::{Signal, SignalExt};
 use std::f32::consts::PI;
 use wasm_bindgen::UnwrapThrowExt;
@@ -37,89 +37,54 @@ impl ProgressCircle {
 
 		let size_str = &(center * 2.0).to_string();
 
-		progress_element
-			.set_attribute("role", "progressbar")
-			.unwrap_throw();
-		progress_element
-			.set_attribute("aria-label", "Loading")
-			.unwrap_throw();
-		progress_element
-			.set_attribute("class", "korros__progress_circle")
-			.unwrap_throw();
+		set_attribute(&progress_element, "role", "progressbar");
+		set_attribute(&progress_element, "aria-label", "Loading");
+		set_attribute(&progress_element, "class", "korros__progress_circle");
 
-		loading.set_attribute("aria-hidden", "true").unwrap_throw();
-		loading.set_attribute("width", size_str).unwrap_throw();
-		loading.set_attribute("height", size_str).unwrap_throw();
-		loading
-			.set_attribute("viewBox", &format!("0 0 {size_str} {size_str}"))
-			.unwrap_throw();
-		loading.set_attribute("fill", "none").unwrap_throw();
-		loading
-			.set_attribute("stroke-width", &stroke_width.to_string())
-			.unwrap_throw();
+		set_attribute(&loading, "aria-hidden", "true");
+		set_attribute(&loading, "width", size_str);
+		set_attribute(&loading, "height", size_str);
+		set_attribute(&loading, "viewBox", &format!("0 0 {size_str} {size_str}"));
+		set_attribute(&loading, "fill", "none");
+		set_attribute(&loading, "stroke-width", &stroke_width.to_string());
 
-		background_circle
-			.set_attribute("cx", &center.to_string())
-			.unwrap_throw();
-		background_circle
-			.set_attribute("cy", &center.to_string())
-			.unwrap_throw();
-		background_circle
-			.set_attribute("r", &radius.to_string())
-			.unwrap_throw();
-		background_circle
-			.set_attribute("stroke", "currentColor")
-			.unwrap_throw();
-		background_circle
-			.set_attribute("opacity", "0.2")
-			.unwrap_throw();
+		set_attribute(&background_circle, "cx", &center.to_string());
+		set_attribute(&background_circle, "cy", &center.to_string());
+		set_attribute(&background_circle, "r", &radius.to_string());
+		set_attribute(&background_circle, "stroke", "currentColor");
+		set_attribute(&background_circle, "opacity", "0.2");
 
-		progress_circle
-			.set_attribute("cx", &center.to_string())
-			.unwrap_throw();
-		progress_circle
-			.set_attribute("cy", &center.to_string())
-			.unwrap_throw();
-		progress_circle
-			.set_attribute("r", &radius.to_string())
-			.unwrap_throw();
-		progress_circle
-			.set_attribute("stroke", "currentColor")
-			.unwrap_throw();
-		progress_circle
-			.set_attribute("stroke-dasharray", &circumference.to_string())
-			.unwrap_throw();
-		progress_circle
-			.set_attribute("stroke-dashoffset", &offset.to_string())
-			.unwrap_throw();
+		set_attribute(&progress_circle, "cx", &center.to_string());
+		set_attribute(&progress_circle, "cy", &center.to_string());
+		set_attribute(&progress_circle, "r", &radius.to_string());
+		set_attribute(&progress_circle, "stroke", "currentColor");
+		set_attribute(
+			&progress_circle,
+			"stroke-dasharray",
+			&circumference.to_string(),
+		);
+		set_attribute(&progress_circle, "stroke-dashoffset", &offset.to_string());
 
-		transform
-			.set_attribute("attributeName", "transform")
-			.unwrap_throw();
-		transform.set_attribute("type", "rotate").unwrap_throw();
-		transform.set_attribute("begin", "0s").unwrap_throw();
-		transform
-			.set_attribute("dur", if is_indeterminate { "1s" } else { "0s" })
-			.unwrap_throw();
-		transform
-			.set_attribute("from", &format!("90 {center} {center}"))
-			.unwrap_throw();
-		transform
-			.set_attribute("to", &format!("450 {center} {center}"))
-			.unwrap_throw();
-		transform
-			.set_attribute(
-				"repeatCount",
-				if is_indeterminate { "indefinite" } else { "0" },
-			)
-			.unwrap_throw();
+		set_attribute(&transform, "attributeName", "transform");
+		set_attribute(&transform, "type", "rotate");
+		set_attribute(&transform, "begin", "0s");
+		set_attribute(
+			&transform,
+			"dur",
+			if is_indeterminate { "1s" } else { "0s" },
+		);
+		set_attribute(&transform, "from", &format!("90 {center} {center}"));
+		set_attribute(&transform, "to", &format!("450 {center} {center}"));
+		set_attribute(
+			&transform,
+			"repeatCount",
+			if is_indeterminate { "indefinite" } else { "0" },
+		);
 
-		progress_circle.append_child(&transform).unwrap_throw();
-
-		loading.append_child(&background_circle).unwrap_throw();
-		loading.append_child(&progress_circle).unwrap_throw();
-
-		progress_element.append_child(&loading).unwrap_throw();
+		append_child(&progress_circle, &transform);
+		append_child(&loading, &background_circle);
+		append_child(&loading, &progress_circle);
+		append_child(&progress_element, &loading);
 
 		ProgressCircle {
 			container: progress_element,

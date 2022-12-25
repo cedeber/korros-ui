@@ -32,7 +32,7 @@ impl Text {
 		let text = Text::new("");
 		let clone = text.clone();
 		let future = signal.for_each(move |value| {
-			clone.clone().set_text(&value.into());
+			clone.clone().set_text(value.into());
 			async {}
 		});
 

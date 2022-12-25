@@ -1,6 +1,6 @@
 use gloo::utils::document;
 use wasm_bindgen::{JsCast, UnwrapThrowExt};
-use web_sys::{Element, Node};
+use web_sys::{Element, HtmlElement, Node};
 
 pub(crate) fn create_element<T: JsCast>(tag: &str) -> T {
 	document()
@@ -36,4 +36,8 @@ pub(crate) fn append_child(parent: &Element, child: &Node) {
 
 pub(crate) fn remove_child(parent: &Element, child: &Node) {
 	parent.remove_child(child).unwrap_throw();
+}
+
+pub(crate) fn set_style(element: &HtmlElement, name: &str, value: &str) {
+	element.style().set_property(name, value).unwrap_throw();
 }

@@ -1,7 +1,6 @@
 use super::ViewComponent;
-use crate::utils::element::create_element;
+use crate::utils::element::{append_child, create_element};
 use gloo::utils::{body, head};
-use wasm_bindgen::UnwrapThrowExt;
 use web_sys::{HtmlElement, HtmlStyleElement};
 
 pub struct Body {
@@ -22,15 +21,15 @@ impl Body {
 		let styles = include_str!("../assets/styles.css");
 		let head = head();
 		let style: HtmlStyleElement = create_element("style");
+
 		style.set_text_content(Some(styles));
-		head.append_child(&style).unwrap_throw();
+		append_child(&head, &style);
 
 		Self { element }
 	}
 
 	pub fn child(self, element: &impl ViewComponent) -> Self {
-		self.element.append_child(element.render()).unwrap_throw();
-
+		append_child(&self.element, element.render());
 		self
 	}
 }

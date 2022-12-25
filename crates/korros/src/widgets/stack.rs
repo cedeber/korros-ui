@@ -1,6 +1,5 @@
 use super::ViewComponent;
-use crate::utils::element::create_element;
-use wasm_bindgen::UnwrapThrowExt;
+use crate::utils::element::{append_child, create_element, set_attribute, set_style};
 use web_sys::{HtmlDivElement, Node};
 
 pub struct HStack {
@@ -23,35 +22,28 @@ impl HStack {
 	pub fn new() -> Self {
 		let stack: HtmlDivElement = create_element("div");
 
-		stack
-			.set_attribute("class", "korros__h-stack")
-			.unwrap_throw();
-		stack.style().set_property("gap", "5px").unwrap_throw();
+		set_attribute(&stack, "class", "korros__h-stack");
+		set_style(&stack, "gap", "5px");
 
 		HStack { element: stack }
 	}
 
 	pub fn gap(self, gap: u32) -> Self {
-		self.element
-			.style()
-			.set_property("gap", &format!("{gap}px"))
-			.unwrap_throw();
-
+		set_style(&self.element, "gap", &format!("{gap}px"));
 		self
 	}
 
 	pub fn padding(self, top_bottom: u32, left_right: u32) -> Self {
-		self.element
-			.style()
-			.set_property("padding", &format!("{top_bottom}px {left_right}px"))
-			.unwrap_throw();
-
+		set_style(
+			&self.element,
+			"padding",
+			&format!("{top_bottom}px {left_right}px"),
+		);
 		self
 	}
 
 	pub fn child(self, element: &impl ViewComponent) -> Self {
-		self.element.append_child(element.render()).unwrap_throw();
-
+		append_child(&self.element, element.render());
 		self
 	}
 }
@@ -76,35 +68,28 @@ impl VStack {
 	pub fn new() -> Self {
 		let stack: HtmlDivElement = create_element("div");
 
-		stack
-			.set_attribute("class", "korros__v-stack")
-			.unwrap_throw();
-		stack.style().set_property("gap", "5px").unwrap_throw();
+		set_attribute(&stack, "class", "korros__v-stack");
+		set_style(&stack, "gap", "5px");
 
 		VStack { element: stack }
 	}
 
 	pub fn gap(self, gap: u32) -> Self {
-		self.element
-			.style()
-			.set_property("gap", &format!("{gap}px"))
-			.unwrap_throw();
-
+		set_style(&self.element, "gap", &format!("{gap}px"));
 		self
 	}
 
 	pub fn padding(self, top_bottom: u32, left_right: u32) -> Self {
-		self.element
-			.style()
-			.set_property("padding", &format!("{top_bottom}px {left_right}px"))
-			.unwrap_throw();
-
+		set_style(
+			&self.element,
+			"padding",
+			&format!("{top_bottom}px {left_right}px"),
+		);
 		self
 	}
 
 	pub fn child(self, element: &impl ViewComponent) -> Self {
-		self.element.append_child(element.render()).unwrap_throw();
-
+		append_child(&self.element, element.render());
 		self
 	}
 }
