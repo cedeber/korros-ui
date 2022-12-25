@@ -5,7 +5,9 @@ use super::{
 	text::Text,
 	ViewComponent,
 };
-use crate::utils::element::create_element;
+use crate::utils::element::{
+	append_child, create_element, remove_attribute, remove_child, set_attribute, set_bool_attribute,
+};
 use futures_signals::signal::{Signal, SignalExt};
 use gloo::{console::externs::log, events::EventListener};
 use std::{
@@ -45,29 +47,23 @@ pub struct Button {
 impl ViewComponent for Button {
 	fn render(&self) -> &Node {
 		if let Some(icon) = &self.left_icon {
-			self.element.append_child(icon.render()).unwrap_throw();
-			self.element
-				.set_attribute("data-icon", "left")
-				.unwrap_throw();
+			append_child(&self.element, icon.render());
+			set_attribute(&self.element, "data-icon", "left");
 		}
 
 		if let Some(text) = &self.text {
-			self.element.append_child(text.render()).unwrap_throw();
+			append_child(&self.element, text.render());
 		}
 
 		if self.left_icon.is_none() {
 			if let Some(icon) = &self.right_icon {
-				self.element.append_child(icon.render()).unwrap_throw();
-				self.element
-					.set_attribute("data-icon", "right")
-					.unwrap_throw();
+				append_child(&self.element, icon.render());
+				set_attribute(&self.element, "data-icon", "right");
 			}
 		}
 
 		if self.text.is_none() {
-			self.element
-				.set_attribute("data-icon", "single")
-				.unwrap_throw();
+			set_attribute(&self.element, "data-icon", "single");
 		}
 
 		&self.element
@@ -78,9 +74,7 @@ impl ViewComponent for Button {
 impl Button {
 	pub fn new(label: &str) -> Self {
 		let button: HtmlButtonElement = create_element("button");
-		button
-			.set_attribute("class", "korros__action-button")
-			.unwrap_throw();
+		set_attribute(&button, "class", "korros__action-button");
 
 		let text = if label.is_empty() {
 			None
@@ -136,30 +130,12 @@ impl Button {
 
 	pub fn intent(self, intent: ButtonIntent) -> Self {
 		match intent {
-			ButtonIntent::Filled => self
-				.element
-				.set_attribute("data-intent", "filled")
-				.unwrap_throw(),
-			ButtonIntent::Tinted => self
-				.element
-				.set_attribute("data-intent", "tinted")
-				.unwrap_throw(),
-			ButtonIntent::Gray => self
-				.element
-				.set_attribute("data-intent", "gray")
-				.unwrap_throw(),
-			ButtonIntent::Outlined => self
-				.element
-				.set_attribute("data-intent", "outlined")
-				.unwrap_throw(),
-			ButtonIntent::Plain => self
-				.element
-				.set_attribute("data-intent", "plain")
-				.unwrap_throw(),
-			ButtonIntent::Danger => self
-				.element
-				.set_attribute("data-intent", "danger")
-				.unwrap_throw(),
+			ButtonIntent::Filled => set_attribute(&self.element, "data-intent", "filled"),
+			ButtonIntent::Tinted => set_attribute(&self.element, "data-intent", "tinted"),
+			ButtonIntent::Gray => set_attribute(&self.element, "data-intent", "gray"),
+			ButtonIntent::Outlined => set_attribute(&self.element, "data-intent", "outlined"),
+			ButtonIntent::Plain => set_attribute(&self.element, "data-intent", "plain"),
+			ButtonIntent::Danger => set_attribute(&self.element, "data-intent", "danger"),
 		};
 
 		self
@@ -206,8 +182,8 @@ impl Button {
 		data.disabled = value;
 
 		match value {
-			true => self.element.set_attribute("disabled", "").unwrap_throw(),
-			false => self.element.remove_attribute("disabled").unwrap_throw(),
+			true => set_bool_attribute(&self.element, "disabled"),
+			false => remove_attribute(&self.element, "disabled"),
 		};
 	}
 
@@ -219,23 +195,22 @@ impl Button {
 
 		match value {
 			true => {
-				self.element
-					.set_attribute("data-loading", "true")
-					.unwrap_throw();
+				set_attribute(&self.element, "data-loading", "true");
 
 				if let Some(fragment) = loading_fragment {
-					self.element.remove_child(&fragment).unwrap_throw();
+					remove_child(&self.element, &fragment);
 				}
 
 				let fragment = ProgressCircle::new(18.0, true);
 				let fragment = fragment.render();
-				self.element.append_child(fragment).unwrap_throw();
+				append_child(&self.element, fragment);
 				data.loading_fragment = Some(fragment.clone());
 			}
 			false => {
-				self.element.remove_attribute("data-loading").unwrap_throw();
+				remove_attribute(&self.element, "data-loading");
+
 				if let Some(fragment) = loading_fragment {
-					self.element.remove_child(&fragment).unwrap_throw();
+					remove_child(&self.element, &fragment);
 					data.loading_fragment = None;
 				}
 			}
