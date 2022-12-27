@@ -1,6 +1,6 @@
 use futures_signals::signal::{Mutable, SignalExt};
 use korros::widgets::{
-	action_button::{Button, ButtonIntent},
+	action_button::{ActionButton, ActionButtonIntent},
 	stack::{HStack, VStack},
 	text::Text,
 	toggle::Toggle,
@@ -19,8 +19,8 @@ pub fn test() -> impl ViewComponent {
 	let text3 = Text::new_signal(state.signal().map(|value| ["Hello,", value].join(" ")));
 
 	let state_button = state_bool.clone();
-	let button = Button::new("Click me!")
-		.intent(ButtonIntent::Filled)
+	let button = ActionButton::new("Click me!")
+		.intent(ActionButtonIntent::Filled)
 		.on_press(move |_| {
 			state.set("I changed the HTML text.");
 			state_button.set(!state_button.get());

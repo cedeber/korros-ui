@@ -14,7 +14,7 @@ use wasm_bindgen::{JsCast, UnwrapThrowExt};
 use wasm_bindgen_futures::spawn_local;
 use web_sys::{Event, HtmlButtonElement, KeyboardEvent, Node};
 
-pub enum ButtonIntent {
+pub enum ActionButtonIntent {
 	Filled,
 	Tinted,
 	Gray,
@@ -24,22 +24,22 @@ pub enum ButtonIntent {
 }
 
 #[derive(Clone)]
-struct ButtonState {
+struct ActionButtonState {
 	disabled: bool,
 	loading: bool,
 	loading_fragment: Option<Node>,
 }
 
 #[derive(Clone)]
-pub struct Button {
+pub struct ActionButton {
 	element: HtmlButtonElement,
-	state: Arc<Mutex<ButtonState>>,
+	state: Arc<Mutex<ActionButtonState>>,
 	text: Option<Text>,
 	left_icon: Option<Icon>,
 	right_icon: Option<Icon>,
 }
 
-impl ViewComponent for Button {
+impl ViewComponent for ActionButton {
 	fn render(&self) -> &Node {
 		if let Some(icon) = &self.left_icon {
 			append_child(&self.element, icon.render());
@@ -66,7 +66,7 @@ impl ViewComponent for Button {
 }
 
 // TODO Add aria-label? or label struct?
-impl Button {
+impl ActionButton {
 	pub fn new(label: &str) -> Self {
 		let button: HtmlButtonElement = create_element("button");
 		set_attribute(&button, "class", "korros__action-button");
@@ -77,9 +77,9 @@ impl Button {
 			Some(Text::new(label))
 		};
 
-		Button {
+		ActionButton {
 			element: button,
-			state: Arc::new(Mutex::new(ButtonState {
+			state: Arc::new(Mutex::new(ActionButtonState {
 				disabled: false,
 				loading: false,
 				loading_fragment: None,
@@ -88,7 +88,7 @@ impl Button {
 			left_icon: None,
 			right_icon: None,
 		}
-		.intent(ButtonIntent::Filled)
+		.intent(ActionButtonIntent::Filled)
 	}
 
 	/// Won't call the callback is disabled or loading
@@ -123,14 +123,14 @@ impl Button {
 		self
 	}
 
-	pub fn intent(self, intent: ButtonIntent) -> Self {
+	pub fn intent(self, intent: ActionButtonIntent) -> Self {
 		match intent {
-			ButtonIntent::Filled => set_attribute(&self.element, "data-intent", "filled"),
-			ButtonIntent::Tinted => set_attribute(&self.element, "data-intent", "tinted"),
-			ButtonIntent::Gray => set_attribute(&self.element, "data-intent", "gray"),
-			ButtonIntent::Outlined => set_attribute(&self.element, "data-intent", "outlined"),
-			ButtonIntent::Plain => set_attribute(&self.element, "data-intent", "plain"),
-			ButtonIntent::Danger => set_attribute(&self.element, "data-intent", "danger"),
+			ActionButtonIntent::Filled => set_attribute(&self.element, "data-intent", "filled"),
+			ActionButtonIntent::Tinted => set_attribute(&self.element, "data-intent", "tinted"),
+			ActionButtonIntent::Gray => set_attribute(&self.element, "data-intent", "gray"),
+			ActionButtonIntent::Outlined => set_attribute(&self.element, "data-intent", "outlined"),
+			ActionButtonIntent::Plain => set_attribute(&self.element, "data-intent", "plain"),
+			ActionButtonIntent::Danger => set_attribute(&self.element, "data-intent", "danger"),
 		};
 
 		self

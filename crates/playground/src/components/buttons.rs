@@ -1,6 +1,6 @@
 use futures_signals::signal::Mutable;
 use korros::widgets::{
-	action_button::{Button, ButtonIntent},
+	action_button::{ActionButton, ActionButtonIntent},
 	stack::HStack,
 	toggle::Toggle,
 	ViewComponent,
@@ -21,46 +21,46 @@ impl Default for Store {
 pub fn buttons() -> impl ViewComponent {
 	let store = Store::default();
 
-	let button_delete = Button::new("Delete")
-		.intent(ButtonIntent::Danger)
+	let button_delete = ActionButton::new("Delete")
+		.intent(ActionButtonIntent::Danger)
 		.disabled_signal(store.disabled.signal())
 		.left_icon("delete");
-	let button_close = Button::new("Close")
-		.intent(ButtonIntent::Gray)
+	let button_close = ActionButton::new("Close")
+		.intent(ActionButtonIntent::Gray)
 		.disabled_signal(store.disabled.signal())
 		.left_icon("close");
-	let button_outlined = Button::new("Outlined")
-		.intent(ButtonIntent::Outlined)
+	let button_outlined = ActionButton::new("Outlined")
+		.intent(ActionButtonIntent::Outlined)
 		.disabled_signal(store.disabled.signal());
-	let button_plain = Button::new("Plain")
-		.intent(ButtonIntent::Plain)
+	let button_plain = ActionButton::new("Plain")
+		.intent(ActionButtonIntent::Plain)
 		.disabled_signal(store.disabled.signal());
-	let button_refresh = Button::new("Refresh")
-		.intent(ButtonIntent::Tinted)
+	let button_refresh = ActionButton::new("Refresh")
+		.intent(ActionButtonIntent::Tinted)
 		.left_icon("refresh")
 		.loading_signal(store.disabled.signal())
 		.disabled_signal(store.disabled.signal());
-	let button_arrow_alone = Button::new("")
+	let button_arrow_alone = ActionButton::new("")
 		.aria_label("Next")
-		.intent(ButtonIntent::Filled)
+		.intent(ActionButtonIntent::Filled)
 		.disabled_signal(store.disabled.signal())
 		.left_icon("arrow_forward");
-	let button_save = Button::new("Save")
-		.intent(ButtonIntent::Filled)
+	let button_save = ActionButton::new("Save")
+		.intent(ActionButtonIntent::Filled)
 		.disabled_signal(store.disabled.signal());
-	let button_cancel = Button::new("Cancel")
-		.intent(ButtonIntent::Gray)
+	let button_cancel = ActionButton::new("Cancel")
+		.intent(ActionButtonIntent::Gray)
 		.disabled_signal(store.disabled.signal());
-	let button_new_folder = Button::new("New Folder")
-		.intent(ButtonIntent::Tinted)
+	let button_new_folder = ActionButton::new("New Folder")
+		.intent(ActionButtonIntent::Tinted)
 		.disabled_signal(store.disabled.signal());
-	let button_delete_icon = Button::new("")
+	let button_delete_icon = ActionButton::new("")
 		.aria_label("Delete")
-		.intent(ButtonIntent::Danger)
+		.intent(ActionButtonIntent::Danger)
 		.disabled_signal(store.disabled.signal())
 		.left_icon("delete");
-	let button_next = Button::new("Next")
-		.intent(ButtonIntent::Filled)
+	let button_next = ActionButton::new("Next")
+		.intent(ActionButtonIntent::Filled)
 		.disabled_signal(store.disabled.signal())
 		.right_icon("arrow_forward");
 
