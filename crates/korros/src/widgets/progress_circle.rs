@@ -1,5 +1,5 @@
 use super::ViewComponent;
-use crate::utils::element::{append_child, create_element, create_svg_element, set_attribute};
+use crate::utils::{append_child, create_element, create_svg_element, set_attribute};
 use futures_signals::signal::{Signal, SignalExt};
 use std::f32::consts::PI;
 use wasm_bindgen::UnwrapThrowExt;

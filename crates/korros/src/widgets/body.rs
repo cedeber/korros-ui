@@ -1,5 +1,5 @@
 use super::ViewComponent;
-use crate::utils::element::{append_child, create_element};
+use crate::utils::{append_child, create_element};
 use gloo::utils::{body, head};
 use web_sys::{HtmlElement, HtmlStyleElement};
 

@@ -1,5 +1,5 @@
 use super::ViewComponent;
-use crate::utils::element::create_element;
+use crate::utils::create_element;
 use futures_signals::signal::{Signal, SignalExt};
 use gloo::utils::document;
 use wasm_bindgen::UnwrapThrowExt;

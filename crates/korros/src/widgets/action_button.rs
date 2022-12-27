@@ -4,7 +4,7 @@ use super::{
 	text::Text,
 	ViewComponent,
 };
-use crate::utils::element::{
+use crate::utils::{
 	append_child, create_element, remove_attribute, remove_child, set_attribute, set_bool_attribute,
 };
 use futures_signals::signal::{Signal, SignalExt};

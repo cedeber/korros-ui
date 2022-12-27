@@ -8,6 +8,7 @@ pub mod progress_circle;
 pub mod stack;
 pub mod text;
 pub mod toggle;
+pub mod trigger_button;
 pub mod visually_hidden;
 
 pub trait ViewComponent {

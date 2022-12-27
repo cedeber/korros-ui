@@ -1,5 +1,5 @@
 use super::ViewComponent;
-use crate::utils::element::{append_child, create_element, set_attribute, set_style};
+use crate::utils::{append_child, create_element, set_attribute, set_style};
 use web_sys::{HtmlDivElement, Node};
 
 pub struct HStack {

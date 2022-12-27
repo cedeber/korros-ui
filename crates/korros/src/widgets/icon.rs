@@ -1,5 +1,5 @@
 use super::ViewComponent;
-use crate::utils::element::{append_child, create_element, remove_attribute, set_attribute};
+use crate::utils::{append_child, create_element, remove_attribute, set_attribute};
 use gloo::utils::document;
 use web_sys::{HtmlSpanElement, Node, Text as DomText};
 

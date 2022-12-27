@@ -1,5 +1,5 @@
 use super::ViewComponent;
-use crate::utils::element::{append_child, create_element, set_attribute};
+use crate::utils::{append_child, create_element, set_attribute};
 use web_sys::{HtmlDivElement, Node};
 
 #[derive(Clone)]
