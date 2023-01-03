@@ -1,5 +1,5 @@
 use super::ViewComponent;
-use crate::utils::create_element;
+use crate::utils::{create_element, set_attribute, set_style};
 use futures_signals::signal::{Signal, SignalExt};
 use gloo::utils::document;
 use wasm_bindgen::UnwrapThrowExt;
@@ -25,6 +25,8 @@ impl Text {
 		let container: HtmlSpanElement = create_element("span");
 		let element = document().create_text_node(text);
 
+		set_attribute(&container, "class", "korros__text");
+
 		Text { element, container }.set_text(text)
 	}
 
@@ -48,6 +50,11 @@ impl Text {
 			self.element.set_text_content(Some(&text));
 		}
 
+		self
+	}
+
+	pub fn set_style(self, name: &str, value: &str) -> Self {
+		set_style(&self.container, name, value);
 		self
 	}
 }
