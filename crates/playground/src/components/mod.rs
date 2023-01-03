@@ -1,5 +1,5 @@
-pub use buttons::buttons;
+pub use action_buttons::action_buttons;
 pub use test_signal::test;
 
-mod buttons;
+mod action_buttons;
 mod test_signal;

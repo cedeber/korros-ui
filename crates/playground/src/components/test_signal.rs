@@ -20,7 +20,7 @@ pub fn test() -> impl ViewComponent {
 
 	let state_button = state_bool.clone();
 	let button = ActionButton::new("Click me!")
-		.intent(ActionButtonIntent::Filled)
+		.intent(ActionButtonIntent::Primary)
 		.on_press(move |_| {
 			state.set("I changed the HTML text.");
 			state_button.set(!state_button.get());

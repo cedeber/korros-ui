@@ -15,12 +15,12 @@ use wasm_bindgen_futures::spawn_local;
 use web_sys::{Event, HtmlButtonElement, KeyboardEvent, Node};
 
 pub enum ActionButtonIntent {
-	Filled,
-	Tinted,
-	Gray,
+	Primary,
+	Active,
+	Secondary,
 	Danger,
 	Outlined,
-	Plain,
+	Discrete,
 }
 
 #[derive(Clone)]
@@ -88,7 +88,7 @@ impl ActionButton {
 			left_icon: None,
 			right_icon: None,
 		}
-		.intent(ActionButtonIntent::Filled)
+		.intent(ActionButtonIntent::Primary)
 	}
 
 	/// Won't call the callback is disabled or loading
@@ -125,11 +125,11 @@ impl ActionButton {
 
 	pub fn intent(self, intent: ActionButtonIntent) -> Self {
 		match intent {
-			ActionButtonIntent::Filled => set_attribute(&self.element, "data-intent", "filled"),
-			ActionButtonIntent::Tinted => set_attribute(&self.element, "data-intent", "tinted"),
-			ActionButtonIntent::Gray => set_attribute(&self.element, "data-intent", "gray"),
+			ActionButtonIntent::Primary => set_attribute(&self.element, "data-intent", "filled"),
+			ActionButtonIntent::Active => set_attribute(&self.element, "data-intent", "tinted"),
+			ActionButtonIntent::Secondary => set_attribute(&self.element, "data-intent", "gray"),
 			ActionButtonIntent::Outlined => set_attribute(&self.element, "data-intent", "outlined"),
-			ActionButtonIntent::Plain => set_attribute(&self.element, "data-intent", "plain"),
+			ActionButtonIntent::Discrete => set_attribute(&self.element, "data-intent", "plain"),
 			ActionButtonIntent::Danger => set_attribute(&self.element, "data-intent", "danger"),
 		};
 
@@ -159,6 +159,7 @@ impl ActionButton {
 
 		self
 	}
+
 	pub fn loading_signal(self, signal: impl Signal<Item = bool> + 'static) -> Self {
 		let clone = self.clone();
 		let future = signal.for_each(move |value| {

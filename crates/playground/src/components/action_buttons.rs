@@ -18,7 +18,7 @@ impl Default for Store {
 	}
 }
 
-pub fn buttons() -> impl ViewComponent {
+pub fn action_buttons() -> impl ViewComponent {
 	let store = Store::default();
 
 	let button_delete = ActionButton::new("Delete")
@@ -26,33 +26,33 @@ pub fn buttons() -> impl ViewComponent {
 		.disabled_signal(store.disabled.signal())
 		.left_icon("delete");
 	let button_close = ActionButton::new("Close")
-		.intent(ActionButtonIntent::Gray)
+		.intent(ActionButtonIntent::Secondary)
 		.disabled_signal(store.disabled.signal())
 		.left_icon("close");
 	let button_outlined = ActionButton::new("Outlined")
 		.intent(ActionButtonIntent::Outlined)
 		.disabled_signal(store.disabled.signal());
 	let button_plain = ActionButton::new("Plain")
-		.intent(ActionButtonIntent::Plain)
+		.intent(ActionButtonIntent::Discrete)
 		.disabled_signal(store.disabled.signal());
 	let button_refresh = ActionButton::new("Refresh")
-		.intent(ActionButtonIntent::Tinted)
+		.intent(ActionButtonIntent::Active)
 		.left_icon("refresh")
 		.loading_signal(store.disabled.signal())
 		.disabled_signal(store.disabled.signal());
 	let button_arrow_alone = ActionButton::new("")
 		.aria_label("Next")
-		.intent(ActionButtonIntent::Filled)
+		.intent(ActionButtonIntent::Primary)
 		.disabled_signal(store.disabled.signal())
 		.left_icon("arrow_forward");
 	let button_save = ActionButton::new("Save")
-		.intent(ActionButtonIntent::Filled)
+		.intent(ActionButtonIntent::Primary)
 		.disabled_signal(store.disabled.signal());
 	let button_cancel = ActionButton::new("Cancel")
-		.intent(ActionButtonIntent::Gray)
+		.intent(ActionButtonIntent::Secondary)
 		.disabled_signal(store.disabled.signal());
 	let button_new_folder = ActionButton::new("New Folder")
-		.intent(ActionButtonIntent::Tinted)
+		.intent(ActionButtonIntent::Active)
 		.disabled_signal(store.disabled.signal());
 	let button_delete_icon = ActionButton::new("")
 		.aria_label("Delete")
@@ -60,7 +60,7 @@ pub fn buttons() -> impl ViewComponent {
 		.disabled_signal(store.disabled.signal())
 		.left_icon("delete");
 	let button_next = ActionButton::new("Next")
-		.intent(ActionButtonIntent::Filled)
+		.intent(ActionButtonIntent::Primary)
 		.disabled_signal(store.disabled.signal())
 		.right_icon("arrow_forward");
 

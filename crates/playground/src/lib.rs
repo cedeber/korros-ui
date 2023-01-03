@@ -24,7 +24,7 @@ pub fn main_wasm() -> Result<(), JsValue> {
 
 	let final_stack = VStack::new()
 		.child(&components::test())
-		.child(&components::buttons())
+		.child(&components::action_buttons())
 		.child(&progress)
 		.child(&progress2)
 		.child(&text)
