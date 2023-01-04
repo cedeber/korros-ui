@@ -92,14 +92,14 @@
 	}
 
 	&:disabled {
-		--background: var(--stone-100);
+		--background: var(--stone-100) !important;
 		--color: var(--stone-500);
 		filter: none;
 		box-shadow: none;
 		cursor: not-allowed;
 
 		@media (prefers-color-scheme: dark) {
-			--background: var(--stone-700);
+			--background: var(--stone-700) !important;
 			--color: var(--stone-300);
 			filter: brightness(0.7);
 		}
