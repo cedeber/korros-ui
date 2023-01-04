@@ -47,6 +47,7 @@ pub fn main_wasm() -> Result<(), JsValue> {
 		.child(&header)
 		.child(&components::test())
 		.child(&components::action_buttons())
+		.child(&components::trigger_buttons())
 		.child(&progress)
 		.child(&progress2)
 		.child(&text)
