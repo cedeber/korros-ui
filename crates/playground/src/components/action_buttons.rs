@@ -3,7 +3,7 @@ use korros::widgets::{
 	action_button::{ActionButton, ActionButtonIntent},
 	stack::HStack,
 	toggle::Toggle,
-	ViewComponent,
+	Widget,
 };
 
 struct Store {
@@ -18,7 +18,7 @@ impl Default for Store {
 	}
 }
 
-pub fn action_buttons() -> impl ViewComponent {
+pub fn action_buttons() -> impl Widget {
 	let store = Store::default();
 
 	let button_delete = ActionButton::new("Delete")

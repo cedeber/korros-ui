@@ -1,4 +1,4 @@
-use super::ViewComponent;
+use super::Widget;
 use crate::utils::create_element;
 use futures_signals::signal::{Signal, SignalExt};
 use gloo::events::EventListener;
@@ -19,7 +19,7 @@ pub struct Toggle {
 	state: Arc<Mutex<ToggleState>>,
 }
 
-impl ViewComponent for Toggle {
+impl Widget for Toggle {
 	fn render(&self) -> &Node {
 		&self.element
 	}

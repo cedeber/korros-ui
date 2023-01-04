@@ -1,4 +1,4 @@
-use super::ViewComponent;
+use super::Widget;
 use crate::utils::{append_child, create_element, set_attribute};
 use web_sys::{HtmlDivElement, Node};
 
@@ -7,7 +7,7 @@ pub struct VisuallyHidden {
 	element: HtmlDivElement,
 }
 
-impl ViewComponent for VisuallyHidden {
+impl Widget for VisuallyHidden {
 	fn render(&self) -> &Node {
 		&self.element
 	}
@@ -28,7 +28,7 @@ impl VisuallyHidden {
 		VisuallyHidden { element }
 	}
 
-	pub fn child(self, element: &impl ViewComponent) -> Self {
+	pub fn child(self, element: &impl Widget) -> Self {
 		append_child(&self.element, element.render());
 
 		self

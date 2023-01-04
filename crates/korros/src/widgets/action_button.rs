@@ -2,7 +2,7 @@ use super::{
 	icon::{Icon, IconSize},
 	progress_circle::ProgressCircle,
 	text::Text,
-	ViewComponent,
+	Widget,
 };
 use crate::utils::{
 	append_child, create_element, remove_attribute, remove_child, set_attribute, set_bool_attribute,
@@ -39,7 +39,7 @@ pub struct ActionButton {
 	right_icon: Option<Icon>,
 }
 
-impl ViewComponent for ActionButton {
+impl Widget for ActionButton {
 	fn render(&self) -> &Node {
 		if let Some(icon) = &self.left_icon {
 			append_child(&self.element, icon.render());

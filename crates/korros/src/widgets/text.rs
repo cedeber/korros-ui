@@ -1,4 +1,4 @@
-use super::ViewComponent;
+use super::Widget;
 use crate::utils::{create_element, set_attribute, set_style};
 use futures_signals::signal::{Signal, SignalExt};
 use gloo::utils::document;
@@ -12,7 +12,7 @@ pub struct Text {
 	container: HtmlSpanElement,
 }
 
-impl ViewComponent for Text {
+impl Widget for Text {
 	fn render(&self) -> &Node {
 		self.container.append_child(&self.element).unwrap_throw();
 

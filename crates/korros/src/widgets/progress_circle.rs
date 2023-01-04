@@ -1,4 +1,4 @@
-use super::ViewComponent;
+use super::Widget;
 use crate::utils::{append_child, create_element, create_svg_element, set_attribute};
 use futures_signals::signal::{Signal, SignalExt};
 use std::f32::consts::PI;
@@ -13,7 +13,7 @@ pub struct ProgressCircle {
 	circumference: f32,
 }
 
-impl ViewComponent for ProgressCircle {
+impl Widget for ProgressCircle {
 	fn render(&self) -> &Node {
 		&self.container
 	}

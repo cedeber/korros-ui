@@ -1,4 +1,4 @@
-use super::ViewComponent;
+use super::Widget;
 use crate::utils::{append_child, create_element, remove_attribute, set_attribute};
 use gloo::utils::document;
 use web_sys::{HtmlSpanElement, Node, Text as DomText};
@@ -14,7 +14,7 @@ pub struct Icon {
 	parent: HtmlSpanElement,
 }
 
-impl ViewComponent for Icon {
+impl Widget for Icon {
 	fn render(&self) -> &Node {
 		&self.parent
 	}

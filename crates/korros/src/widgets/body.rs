@@ -1,4 +1,4 @@
-use super::ViewComponent;
+use super::Widget;
 use crate::utils::{append_child, create_element};
 use gloo::utils::{body, head};
 use web_sys::{HtmlElement, HtmlStyleElement};
@@ -28,7 +28,7 @@ impl Body {
 		Self { element }
 	}
 
-	pub fn child(self, element: &impl ViewComponent) -> Self {
+	pub fn child(self, element: &impl Widget) -> Self {
 		append_child(&self.element, element.render());
 		self
 	}

@@ -1,4 +1,4 @@
-use super::ViewComponent;
+use super::Widget;
 use gloo::utils::document;
 use wasm_bindgen::UnwrapThrowExt;
 use web_sys::{DocumentFragment, Node};
@@ -8,7 +8,7 @@ pub struct Fragment {
 	element: DocumentFragment,
 }
 
-impl ViewComponent for Fragment {
+impl Widget for Fragment {
 	fn render(&self) -> &Node {
 		&self.element
 	}
@@ -26,7 +26,7 @@ impl Fragment {
 		Fragment { element }
 	}
 
-	pub fn child(self, element: &impl ViewComponent) -> Self {
+	pub fn child(self, element: &impl Widget) -> Self {
 		self.element.append_child(element.render()).unwrap_throw();
 		self
 	}

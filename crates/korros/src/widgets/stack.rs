@@ -1,12 +1,13 @@
-use super::ViewComponent;
+use super::Widget;
 use crate::utils::{append_child, create_element, set_attribute, set_style};
 use web_sys::{HtmlDivElement, Node};
 
+#[derive(Clone)]
 pub struct HStack {
 	element: HtmlDivElement,
 }
 
-impl ViewComponent for HStack {
+impl Widget for HStack {
 	fn render(&self) -> &Node {
 		&self.element
 	}
@@ -42,17 +43,18 @@ impl HStack {
 		self
 	}
 
-	pub fn child(self, element: &impl ViewComponent) -> Self {
+	pub fn child(self, element: &impl Widget) -> Self {
 		append_child(&self.element, element.render());
 		self
 	}
 }
 
+#[derive(Clone)]
 pub struct VStack {
 	element: HtmlDivElement,
 }
 
-impl ViewComponent for VStack {
+impl Widget for VStack {
 	fn render(&self) -> &Node {
 		&self.element
 	}
@@ -88,7 +90,7 @@ impl VStack {
 		self
 	}
 
-	pub fn child(self, element: &impl ViewComponent) -> Self {
+	pub fn child(self, element: &impl Widget) -> Self {
 		append_child(&self.element, element.render());
 		self
 	}

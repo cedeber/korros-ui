@@ -4,10 +4,10 @@ use korros::widgets::{
 	stack::{HStack, VStack},
 	text::Text,
 	toggle::Toggle,
-	ViewComponent,
+	Widget,
 };
 
-pub fn test() -> impl ViewComponent {
+pub fn test() -> impl Widget {
 	let state = Mutable::new("Default");
 	let state_bool = Mutable::new(false);
 
