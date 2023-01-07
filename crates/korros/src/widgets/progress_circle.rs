@@ -96,16 +96,14 @@ impl ProgressCircle {
 	pub fn progress_signal(self, signal: impl Signal<Item = f32> + 'static) -> Self {
 		let clone = self.clone();
 		let future = signal.for_each(move |value| {
-			let circle_clone = clone.clone();
-			let offset =
-				circle_clone.circumference - ((value % 100.0) / 100.0) * circle_clone.circumference;
+			let offset = clone.circumference - ((value % 100.0) / 100.0) * clone.circumference;
 
-			circle_clone
+			clone
 				.progress_circle
 				.set_attribute("stroke-dashoffset", &offset.to_string())
 				.unwrap_throw();
 
-			circle_clone
+			clone
 				.container
 				.set_attribute("aria-valuenow", &value.to_string())
 				.unwrap_throw();

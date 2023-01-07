@@ -1,6 +1,13 @@
 use futures_signals::signal::{Mutable, SignalExt};
 use gloo::timers::callback::Interval;
-use korros::widgets::{body::Body, progress_circle::ProgressCircle, stack::VStack, text::Text};
+use korros::widgets::{
+	body::Body,
+	fragment::Fragment,
+	progress_circle::ProgressCircle,
+	stack::{HStack, VStack},
+	text::Text,
+	toggle::Toggle,
+};
 use wasm_bindgen::prelude::*;
 
 mod components;
@@ -42,6 +49,15 @@ pub fn main_wasm() -> Result<(), JsValue> {
 	timeout.forget();
 
 	let text = Text::new_signal(offset.signal().map(|value| format!("{value}%")));
+	let show = Mutable::new(true);
+	let fragment = Fragment::new()
+		.child(text.clone())
+		.show_signal(show.signal());
+	//	let fragment = Fragment::new().child(text.clone());
+	let show_check = Toggle::new_signal(show.signal()).on_change(move |value| {
+		show.set(value);
+	});
+	let show_stack = HStack::new().child(&show_check).child(&fragment);
 
 	let final_stack = VStack::new()
 		.child(&header)
@@ -50,7 +66,8 @@ pub fn main_wasm() -> Result<(), JsValue> {
 		.child(&components::trigger_buttons())
 		.child(&progress)
 		.child(&progress2)
-		.child(&text)
+		.child(&show_stack)
+		.child(&show_stack)
 		.gap(20)
 		.padding(10, 20);
 
