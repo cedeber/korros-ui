@@ -48,6 +48,22 @@ impl Fragment {
 		}
 	}
 
+	pub fn new_hidden() -> Self {
+		let element = document().create_document_fragment();
+		let comment = Comment::new().unwrap_throw();
+
+		element.append_child(&comment).unwrap_throw();
+
+		Fragment {
+			element,
+			comment,
+			state: Arc::new(Mutex::new(FragmentState {
+				children: Vec::new(),
+				show: false,
+			})),
+		}
+	}
+
 	pub fn child(self, element: impl Widget + Clone + 'static) -> Self {
 		let state = Arc::clone(&self.state);
 		let mut data = state.lock().unwrap_throw();
@@ -56,7 +72,9 @@ impl Fragment {
 		data.children.push(Box::new(clone));
 
 		// Too early (what if you want them hidden
-		self.element.append_child(element.render()).unwrap_throw();
+		if data.show {
+			self.element.append_child(element.render()).unwrap_throw();
+		}
 
 		self
 	}
