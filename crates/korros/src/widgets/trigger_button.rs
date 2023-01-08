@@ -1,4 +1,5 @@
 use super::{
+	fragment::Fragment,
 	icon::{Icon, IconSize},
 	text::Text,
 	Widget,
@@ -23,14 +24,13 @@ pub enum TriggerButtonIntent {
 #[derive(Clone)]
 struct TriggerButtonState {
 	disabled: bool,
-	show_label: bool,
 }
 
 #[derive(Clone)]
 pub struct TriggerButton {
 	element: HtmlButtonElement,
 	state: Arc<Mutex<TriggerButtonState>>,
-	text: Text,
+	text: Fragment,
 	icon: Icon,
 }
 
@@ -47,14 +47,13 @@ impl TriggerButton {
 	pub fn new(label: &str, icon: &str) -> Self {
 		let button: HtmlButtonElement = create_element("button");
 		set_attribute(&button, "class", "korros__trigger-button");
+		set_attribute(&button, "data-size", "default");
+		set_attribute(&button, "aria-label", label);
 
 		TriggerButton {
 			element: button,
-			state: Arc::new(Mutex::new(TriggerButtonState {
-				disabled: false,
-				show_label: false,
-			})),
-			text: Text::new(label),
+			state: Arc::new(Mutex::new(TriggerButtonState { disabled: false })),
+			text: Fragment::new_hidden().child(Text::new(label)),
 			icon: Icon::new(icon).size(IconSize::Small),
 		}
 		.intent(TriggerButtonIntent::Discrete)
@@ -128,10 +127,19 @@ impl TriggerButton {
 		};
 	}
 
-	pub fn show_label_signal(self, signal: impl Signal<Item = bool> + 'static) -> Self {
+	pub fn show_label_signal(mut self, signal: impl Signal<Item = bool> + 'static) -> Self {
+		let broadcaster = signal.broadcast();
+		self.text = self.text.show_signal(broadcaster.signal());
+
 		let clone = self.clone();
-		let future = signal.for_each(move |value| {
-			// ...
+
+		let future = broadcaster.signal().for_each(move |value| {
+			set_attribute(
+				&clone.element,
+				"data-size",
+				if value { "large" } else { "default" },
+			);
+
 			async {}
 		});
 

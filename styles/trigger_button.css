@@ -17,8 +17,16 @@
 	-webkit-user-select: none;
 	transition: filter 150ms;
 
-	height: 38px;
-	min-width: 40px;
+	&[data-size="large"] {
+		width: auto;
+		height: 38px;
+		min-width: 40px;
+	}
+
+	&[data-size="default"] {
+		width: 30px;
+		height: 26px;
+	}
 
 	&[data-intent="tinted"] {
 		--background: var(--sky-200) !important;
