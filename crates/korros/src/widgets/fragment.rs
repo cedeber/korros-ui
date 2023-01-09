@@ -68,10 +68,8 @@ impl Fragment {
 		let state = Arc::clone(&self.state);
 		let mut data = state.lock().unwrap_throw();
 
-		let clone = element.clone();
-		data.children.push(Box::new(clone));
+		data.children.push(Box::new(element.clone()));
 
-		// Too early (what if you want them hidden
 		if data.show {
 			self.element.append_child(element.render()).unwrap_throw();
 		}
@@ -89,7 +87,7 @@ impl Fragment {
 			if value {
 				if data.show != value {
 					// add content again
-					let fragment: DocumentFragment = document().create_document_fragment();
+					let fragment = document().create_document_fragment();
 
 					for child in &data.children {
 						fragment.append_child(child.render()).unwrap_throw();

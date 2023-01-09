@@ -9,7 +9,10 @@ use crate::utils::{
 };
 use futures_signals::signal::{Signal, SignalExt};
 use gloo::events::EventListener;
-use std::sync::{Arc, Mutex};
+use std::{
+	rc::Rc,
+	sync::{Arc, Mutex},
+};
 use wasm_bindgen::{JsCast, UnwrapThrowExt};
 use wasm_bindgen_futures::spawn_local;
 use web_sys::{Event, HtmlButtonElement, KeyboardEvent, Node};
@@ -23,7 +26,6 @@ pub enum ActionButtonIntent {
 	Discrete,
 }
 
-#[derive(Clone)]
 struct ActionButtonState {
 	disabled: bool,
 	loading: bool,
@@ -102,14 +104,11 @@ impl ActionButton {
 			}
 		};
 
-		let pointer_cb = Arc::new(cb);
-		let keyboard_cb = pointer_cb.clone();
+		let pointer_cb = Rc::new(cb);
+		let keyboard_cb = Rc::clone(&pointer_cb);
 
 		// Pointer
-		EventListener::new(&self.element, "pointerup", move |event| {
-			pointer_cb.clone()(event)
-		})
-		.forget();
+		EventListener::new(&self.element, "pointerup", move |event| pointer_cb(event)).forget();
 
 		// Keyboard : Enter + Space
 		EventListener::new(&self.element, "keyup", move |event| {

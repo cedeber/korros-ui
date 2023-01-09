@@ -107,7 +107,7 @@ impl TriggerButton {
 	pub fn disabled_signal(self, signal: impl Signal<Item = bool> + 'static) -> Self {
 		let clone = self.clone();
 		let future = signal.for_each(move |value| {
-			clone.clone().set_disabled(value);
+			clone.set_disabled(value);
 			async {}
 		});
 
