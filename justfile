@@ -9,7 +9,7 @@ debug:
 	rm -rf crates/korros/src/assets/
 	# esbuild --bundle --outfile=crates/korros/src/assets/styles.css styles/styles.css
 	mkdir crates/korros/src/assets/
-	lightningcss --nesting --bundle --targets 'last 1 year' styles/styles.css -o crates/korros/src/assets/styles.css
+	lightningcss --nesting --bundle --targets 'last 5 versions' styles/styles.css -o crates/korros/src/assets/styles.css
 	just crates/playground/debug
 
 release:
