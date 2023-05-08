@@ -53,7 +53,6 @@ pub fn main_wasm() -> Result<(), JsValue> {
 	let fragment = Fragment::new()
 		.child(text.clone())
 		.show_signal(show.signal());
-	//	let fragment = Fragment::new().child(text.clone());
 	let show_check = Toggle::new_signal(show.signal()).on_change(move |value| {
 		show.set(value);
 	});
@@ -66,7 +65,6 @@ pub fn main_wasm() -> Result<(), JsValue> {
 		.child(&components::trigger_buttons())
 		.child(&progress)
 		.child(&progress2)
-		.child(&show_stack)
 		.child(&show_stack)
 		.gap(20)
 		.padding(10, 20);

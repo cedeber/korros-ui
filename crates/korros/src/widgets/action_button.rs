@@ -93,7 +93,7 @@ impl ActionButton {
 		.intent(ActionButtonIntent::Primary)
 	}
 
-	/// Won't call the callback is disabled or loading
+	/// Won't call the callback if disabled or loading
 	pub fn on_press(self, callback: impl Fn(&Event) + 'static) -> Self {
 		let state = Arc::clone(&self.state);
 
