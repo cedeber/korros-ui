@@ -18,12 +18,12 @@ impl Body {
 		let element = body();
 
 		// Inject CSS styles
-		let styles = include_str!("../assets/styles.css");
-		let head = head();
-		let style: HtmlStyleElement = create_element("style");
+		// let styles = include_str!("../assets/styles.css");
+		// let head = head();
+		// let style: HtmlStyleElement = create_element("style");
 
-		style.set_text_content(Some(styles));
-		append_child(&head, &style);
+		// style.set_text_content(Some(styles));
+		// append_child(&head, &style);
 
 		Self { element }
 	}

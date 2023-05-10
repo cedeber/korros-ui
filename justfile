@@ -9,7 +9,8 @@ debug:
 	rm -rf crates/korros/src/assets/
 	# esbuild --bundle --outfile=crates/korros/src/assets/styles.css styles/styles.css
 	mkdir crates/korros/src/assets/
-	lightningcss --nesting --bundle --targets 'last 5 versions' styles/styles.css -o crates/korros/src/assets/styles.css
+	# lightningcss --nesting --bundle --targets 'last 5 versions' styles/styles.css -o crates/korros/src/assets/styles.css
+	lightningcss --nesting --bundle --targets 'last 5 versions' styles/styles.css -o out/assets/styles.css
 	just crates/playground/debug
 
 release:
@@ -17,7 +18,7 @@ release:
 	rm -rf crates/korros/src/assets/
 	# esbuild --bundle --minify --outfile=crates/korros/src/assets/styles.css styles/styles.css
 	mkdir crates/korros/src/assets/
-	lightningcss --nesting --bundle --minify --targets 'last 1 year' styles/styles.css -o crates/korros/src/assets/styles.css
+	lightningcss --nesting --bundle --minify --targets 'last 1 year' styles/styles.css -o out/assets/styles.css
 	just crates/playground/release
 	esbuild --minify --outfile=out/assets/korros.js --allow-overwrite out/assets/korros.js
 	go build -ldflags '-s -w' server.go
