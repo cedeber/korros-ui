@@ -10,8 +10,9 @@ RUN just release
 FROM alpine:latest
 # RUN apk add --update --no-cache python3
 WORKDIR /app
-COPY --from=builder /app/out /app
+# COPY --from=builder /app/out /app
 # COPY --from=builder /app/server.py /app
 # CMD ["python3", "/app/server.py"]
+COPY --from=builder /app/out /app/public
 COPY --from=builder /app/server /app
-CMD ["server"]
+CMD ["/app/server", "-d", "/app/public"]
