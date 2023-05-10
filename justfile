@@ -20,3 +20,4 @@ release:
 	lightningcss --nesting --bundle --minify --targets 'last 1 year' styles/styles.css -o crates/korros/src/assets/styles.css
 	just crates/playground/release
 	esbuild --minify --outfile=out/assets/korros.js --allow-overwrite out/assets/korros.js
+	go build -ldflags '-s -w' server.go
