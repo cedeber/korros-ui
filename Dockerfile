@@ -1,4 +1,4 @@
-FROM rust:alpine3.17 as builder
+FROM rust:1.69-alpine as builder
 RUN apk add --update --no-cache build-base musl-dev libc-dev openssl-dev binaryen curl nodejs npm just go
 RUN rustup target add wasm32-unknown-unknown
 RUN cargo install wasm-bindgen-cli
