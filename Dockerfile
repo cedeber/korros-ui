@@ -1,7 +1,7 @@
 FROM rust:1.69-alpine as builder
 RUN apk add --update --no-cache build-base musl-dev libc-dev openssl-dev binaryen curl nodejs npm just go
 RUN rustup target add wasm32-unknown-unknown
-RUN cargo install wasm-bindgen-cli
+RUN cargo install --force wasm-bindgen-cli
 RUN npm install --global esbuild lightningcss-cli
 WORKDIR /app
 COPY . .
